@@ -18,12 +18,11 @@ public class Pawn
 		this.listPawns = new LinkedList<Pawn>();
 	}
 	
-	public Pawn(Color color, int x, int y, List<Pawn> listPawns)
+	public Pawn(Color color, int x, int y)
 	{
 		this.positionX = x;
 		this.positionY = y;
 		this.color = color;
-		this.listPawns = listPawns;
 	}
 	
 	public Pawn(int x, int y)
