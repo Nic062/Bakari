@@ -48,4 +48,18 @@ public class Player
 	{
 		this.listPawns.add(pawn);
 	}
+	
+	public void afficher()
+	{
+		System.out.println("Nom du joueur : " + this.nom);
+		System.out.println("Liste des pions : \n");
+		for(Pawn p : this.listPawns)
+		{
+			System.out.println("Couleur des pions : " + p.getColor());
+			System.out.println("Nombre de pions : " + p.getNombre());
+			System.out.println("Position des pions : " + p.getPositionX() + ", " + p.getPositionY());
+		}
+		System.out.println();
+		System.out.println();
+	}
 }
