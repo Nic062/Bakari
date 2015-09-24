@@ -1,28 +1,27 @@
 package entities;
 
-import java.util.LinkedList;
-import java.util.List;
 
 public class Pawn
 {
 	private Color color;
 	private int positionX;
 	private int positionY;
-	private List<Pawn> listPawns;
+	private int nombre;
 	
 	public Pawn()
 	{
 		this.positionX = 0;
 		this.positionY = 0;
 		this.color = null;
-		this.listPawns = new LinkedList<Pawn>();
+		this.nombre = 0;
 	}
 	
-	public Pawn(Color color, int x, int y)
+	public Pawn(Color color, int x, int y, int nombre)
 	{
 		this.positionX = x;
 		this.positionY = y;
 		this.color = color;
+		this.nombre = nombre;
 	}
 	
 	public Pawn(int x, int y)
@@ -57,13 +56,13 @@ public class Pawn
 	{
 		this.color = color;
 	}
-
-	public List<Pawn> getListPawns()
+	
+	public int getNombre()
 	{
-		return listPawns;
+		return this.nombre;
 	}
-	public void setListPawns(List<Pawn> listPawns)
+	public void setNombre(int nombre)
 	{
-		this.listPawns = listPawns;
+		this.nombre = nombre;
 	}
 }

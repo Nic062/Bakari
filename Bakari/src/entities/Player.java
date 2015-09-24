@@ -1,9 +1,12 @@
 package entities;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Player
 {
 	private String nom;
-	private Pawn piece;
+	private List<Pawn> listPawns;
 	
 	public static int nbInstances = 0;
 	
@@ -12,13 +15,13 @@ public class Player
 		nbInstances++;
 		
 		this.nom = "Joueur " + nbInstances; // Permet de donner un nom par défaut (Ex : joueur 1, joueur 2, etc...)
-		this.piece = new Pawn();
+		this.listPawns = new LinkedList<Pawn>();
 	}
 	
-	public Player(String nom, Pawn piece)
+	public Player(String nom)
 	{
 		this.nom = nom;
-		this.piece = piece;
+		this.listPawns = new LinkedList<Pawn>();
 		
 		nbInstances++;
 	}
@@ -32,12 +35,17 @@ public class Player
 		this.nom = nom;
 	}
 	
-	public Pawn getPiece()
+	public List<Pawn> getPawns()
 	{
-		return this.piece;
+		return this.listPawns;
 	}
-	public void setPiece(Pawn piece)
+	public void setPawns(List<Pawn> list)
 	{
-		this.piece = piece;
+		this.listPawns = list;
+	}
+	
+	public void addPawn(Pawn pawn)
+	{
+		this.listPawns.add(pawn);
 	}
 }
