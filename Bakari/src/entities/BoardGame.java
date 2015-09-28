@@ -11,24 +11,26 @@ public class BoardGame
 	public BoardGame() 
 	{
 		// Création de la grille de jeu officiel
-			// a -> Lézard
-			// b -> Oiseau
-			// c -> Rhino
-			// d -> Taureau
+			// o -> Lézard orange
+			// p -> Oiseau rose
+			// g -> Rhino vert
+			// b -> Taureau bleu
+			// x -> Case non jouable
+			// f -> Zone de fin de partie
 			grid= new char[][]
 			{
-					{'a','c','a','b','c','d','b','d','a','b','d','c'},
-					{'b','a','d','c','a','b','a','c','d','c','b','a'},
-					{'c','b','c','d','b','d','c','a','b','a','c','b'},
-					{'d','a','b','a','d','a','b','d','c','d','a','d'},
-					{'a','b','d','c','a','c','a','c','d','b','c','b'},
-					{'c','d','a','b','d','b','c','d','a','d','a','c'},
-					{'d','c','b','d','c','d','b','c','b','a','b','d'},
-					{'a','b','c','a','b','c','a','d','a','b','d','c'},
-					{'b','d','a','b','d','b','d','c','b','d','c','a'},
-					{'c','a','c','d','a','c','a','b','a','c','d','b'},
-					{'d','b','d','b','c','a','b','c','b','a','c','a'},
-					{'a','c','b','a','d','c','d','a','c','d','b','d'}
+					{'o','g','o','p','g','b','p','b','o','p','b','g','x'},
+					{'p','o','b','g','o','p','o','g','b','g','p','o','x'},
+					{'g','p','g','b','p','b','g','o','p','o','g','p','x'},
+					{'b','o','p','o','b','o','p','b','g','b','o','b','f'},
+					{'o','p','b','g','o','g','o','g','b','p','g','p','f'},
+					{'g','b','o','p','b','p','g','b','o','b','o','g','f'},
+					{'b','g','p','b','g','b','p','g','p','o','p','b','f'},
+					{'o','p','g','o','p','g','o','b','o','p','b','g','f'},
+					{'p','b','o','p','b','p','b','g','p','b','g','o','f'},
+					{'g','o','g','b','o','g','o','p','o','g','b','p','x'},
+					{'b','p','b','p','g','o','p','g','p','o','g','o','x'},
+					{'o','g','p','o','b','g','b','o','g','b','p','b','x'}
 			};
 	}
 
@@ -46,9 +48,9 @@ public class BoardGame
 	}
 	public void afficher(){
 		System.out.println();
-		for(int i=0;i<12;i++){
-			for(int j=0;j<12;j++){
-				System.out.print(" | " + grid[i][j]);
+		for(int x=0;x<12;x++){
+			for(int y=0;y<13;y++){
+				System.out.print(" | " + grid[x][y]);
 			}
 			System.out.println(" | ");
 			

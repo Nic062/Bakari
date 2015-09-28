@@ -1,5 +1,6 @@
 package entities;
 
+
 public class Card
 {
 	private Color color;
@@ -30,4 +31,5 @@ public class Card
 	{
 		this.color = color;
 	}
+
 }

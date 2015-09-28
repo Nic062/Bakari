@@ -29,6 +29,12 @@ public class Pawn
 		this.positionX = x;
 		this.positionY = y;
 	}
+	public Pawn(Color color, int x, int y)
+	{
+		this.positionX = x;
+		this.positionY = y;
+		this.color = color;
+	}
 	
 	public int getPositionX()
 	{
