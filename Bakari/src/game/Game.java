@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import entities.BoardGame;
 import entities.Card;
 import entities.Color;
 import entities.Pawn;
@@ -14,19 +15,45 @@ public class Game
 {
 	private List<Player> listPlayers = new LinkedList<Player>();
 	private List<Card> listCard = new LinkedList<Card>();
+	private List<String> blockedPos = new LinkedList<String>();
+	private List<String> AuthorizedPos = new LinkedList<String>();
 	private Scanner sc = new Scanner(System.in);
 	private Scanner sc2 = new Scanner(System.in);
 	private int currentCard = 0;
+	private BoardGame bg;
 	
 	public Game(){}
 	
 	public void initGame()
 	{
+		bg = new BoardGame();
 		System.out.println("---------- Bakari ----------\n\n");
-		initPlayers();
-		initPawns();
-		initCard();
-		startGame();
+		possibility(1, 1, 2, 2);
+		//initPlayers();
+		//initPawns();
+		//initCard();
+		//startGame();
+	}
+	
+	/*private void generateBlockedList()
+	{
+		for(int x=0;x<bg.getNbRow();x++)
+			for(int y=0;y<bg.getNbCol();y++)
+				if(takedCard.getColor()==bg.getColor(x, y)){
+					blockedPos.add("("+x+","+y+")");
+				}
+	}*/
+	public void possibility(int x1, int y1, int x2, int y2){
+		
+		for(String b : this.blockedPos){
+			int xb =  Integer.parseInt(b.substring(1,2));
+			int yb =  Integer.parseInt(b.substring(3,4));
+			for(int x=x1;x<x2;x++)
+				for(int y=y1;y<y2;y++)
+					if(x<xb && y<yb)
+						AuthorizedPos.add("("+x+","+y+")");
+						
+		}
 	}
 	
 	private void startGame()
@@ -36,6 +63,19 @@ public class Game
 		
 		
 	}
+	
+	public boolean movePawn(Pawn p, int x, int y){
+		int lastPosX = p.getPositionX();
+		int lastPosY = p.getPositionY();
+		Color actualCardColor = listCard.get(currentCard).getColor();
+		possibility(lastPosX, lastPosY, x, y);
+		if(bg.getColor(x, y)!=actualCardColor && lastPosX==x || lastPosY==y && AuthorizedPos.contains("("+x+","+y+")")){
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	private void initPlayers()
 	{
 		int nbPlayer;

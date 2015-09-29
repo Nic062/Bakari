@@ -46,6 +46,22 @@ public class BoardGame
 			
 		}
 	}
+	public Color getColor(int x, int y){
+		char letter = grid[x][y];
+		switch (letter) {
+		case 'o':
+			return Color.ORANGE;
+		case 'p':
+			return Color.PINK;
+		case 'g':
+			return Color.GREEN;
+		case 'b':
+			return Color.BLUE;
+		default:
+			return null;
+		}
+	}
+	
 	public void afficher(){
 		System.out.println();
 		for(int x=0;x<12;x++){
