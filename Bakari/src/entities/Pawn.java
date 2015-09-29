@@ -71,4 +71,9 @@ public class Pawn
 	{
 		this.nombre = nombre;
 	}
+	
+	public String toString()
+	{
+		return "Pion (" + positionX + ", " + positionY + ") de couleur " + color.toString();
+	}
 }

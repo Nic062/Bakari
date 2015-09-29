@@ -32,4 +32,8 @@ public class Card
 		this.color = color;
 	}
 
+	public String toString()
+	{
+		return "Carte de couleur " + color.toString() + ", " + ((isVisible) ? "visible" : "non visible");
+	}
 }

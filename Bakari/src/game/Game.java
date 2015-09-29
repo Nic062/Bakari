@@ -17,6 +17,8 @@ public class Game
 	private Scanner sc = new Scanner(System.in);
 	private Scanner sc2 = new Scanner(System.in);
 	private int currentCard = 0;
+	private boolean isFinished = false;
+	private int currentTour = 1;
 	
 	public Game(){}
 	
@@ -31,27 +33,48 @@ public class Game
 	
 	private void startGame()
 	{
-		System.out.println("Démmarage de la partie...");
-		int currentPlayer = 1;
+		System.out.println("Démarrage de la partie...");
 		
-		
+		while(!isFinished)
+		{
+			takeCard();
+			
+			for(Player pl : this.listPlayers)
+			{
+				checkTour(pl);
+				this.currentTour++;
+			}
+			isFinished = true;
+		}
 	}
+	
+	private void checkTour(Player pl)
+	{
+		System.out.println("Tour " + this.currentTour + " - Joueur : " + pl.getNom());
+		System.out.println("Indiquez les coordonnées pour votre pion :\n x :");
+		int x = sc.nextInt();
+		System.out.println("y :");
+		int y = sc.nextInt();
+		
+		//deplacer(pl.getPawns().get(currentTour), x, y);
+	}
+	
 	private void initPlayers()
 	{
-		int nbPlayer;
 		System.out.println("Entrez le nombre de joueur (2-3-4) : ");
-		nbPlayer = sc.nextInt();
+		int nbPlayer = sc.nextInt();
 		if(nbPlayer>1 && nbPlayer<5)
 		{
-			for(int i=0;i<nbPlayer;i++)
-			{	
-				String playerName;
-				System.out.println("Entre le nom du joueur "+i+" :");	
-				playerName = sc2.nextLine();
-				if(playerName != "" && playerName != null)
+			for(int i=1;i<nbPlayer + 1;i++)
+			{
+				String playerName = "";
+				do
 				{
+					System.out.println("Entre le nom du joueur "+i+" :");	
+					playerName = sc2.nextLine();
 					this.listPlayers.add(new Player(playerName));
-				}	
+				}
+				while(playerName.isEmpty());
 			} 
 		}
 	}
@@ -67,7 +90,7 @@ public class Game
 						this.listPlayers.get(i).addPawn(new Pawn(Color.RED, 0, j));
 				else
 					for(int j=6;j<12;j++)
-					this.listPlayers.get(i).addPawn(new Pawn(Color.ORANGE, 0, j));
+						this.listPlayers.get(i).addPawn(new Pawn(Color.ORANGE, 0, j));
 			}
 		}
 		else if(this.listPlayers.size() == 3)
@@ -118,7 +141,7 @@ public class Game
 		this.listCard.add(new Card(Color.BLUE));
 		this.listCard.add(new Card(Color.ORANGE));
 		Collections.shuffle(listCard);
-		System.out.println("Carte initialisé et mélangé.");
+		System.out.println("Cartes initialisées et mélangées.");
 		
 	}
 	
