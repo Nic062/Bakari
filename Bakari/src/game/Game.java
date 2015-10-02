@@ -28,21 +28,27 @@ public class Game
 	{
 		bg = new BoardGame();
 		System.out.println("---------- Bakari ----------\n\n");
-		possibility(1, 1, 2, 2);
-		//initPlayers();
-		//initPawns();
-		//initCard();
-		//startGame();
+		initPlayers();
+		initPawns();
+		initCard();
+		startGame();
 	}
 	
-	/*private void generateBlockedList()
+	private void generateBlockedList()
 	{
 		for(int x=0;x<bg.getNbRow();x++)
 			for(int y=0;y<bg.getNbCol();y++)
 				if(takedCard.getColor()==bg.getColor(x, y)){
 					blockedPos.add("("+x+","+y+")");
 				}
-	}*/
+		for(Player p : this.listPlayers){
+			for(Pawn pa : p.getPawns()){
+				int x = pa.getPositionX();
+				int y = pa.getPositionY();
+				blockedPos.add("("+x+","+y+")");
+			}
+		}
+	}
 	public void possibility(int x1, int y1, int x2, int y2){
 		
 		for(String b : this.blockedPos){
