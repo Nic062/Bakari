@@ -33,6 +33,11 @@ public class BoardGame
 					{'o','g','p','o','b','g','b','o','g','b','p','b','x'}
 			};
 	}
+	
+	public char getChar(int x, int y)
+	{
+		return grid[x][y];
+	}
 
 
 	public BoardGame(int n, int p) {

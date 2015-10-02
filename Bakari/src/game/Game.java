@@ -38,7 +38,7 @@ public class Game
 	{
 		for(int x=0;x<bg.getNbRow();x++)
 			for(int y=0;y<bg.getNbCol();y++)
-				if(takedCard.getColor()==bg.getColor(x, y)){
+				if(takedCard.getColor()==bg.getColor(x, y) || bg.getChar(x, y)=='x' ){
 					blockedPos.add("("+x+","+y+")");
 				}
 		for(Player p : this.listPlayers){
