@@ -21,6 +21,7 @@ public class Game
 	private Scanner sc2 = new Scanner(System.in);
 	private int currentCard = 0;
 	private BoardGame bg;
+	private Card takedCard = takeCard();
 	
 	public Game(){}
 	
@@ -77,9 +78,20 @@ public class Game
 		possibility(lastPosX, lastPosY, x, y);
 		if(bg.getColor(x, y)!=actualCardColor && lastPosX==x || lastPosY==y && AuthorizedPos.contains("("+x+","+y+")")){
 			return true;
-		}else {
-			return false;
 		}
+		return false;
+	}
+
+	
+	public boolean checkWin(Player p, Pawn pa)
+	{
+		if(bg.getChar(pa.getPositionX(),pa.getPositionY())=='f'){
+			p.removePawn(pa);
+			takedCard = takeCard();
+			System.out.println("Un pion est arrivé à destination, changement de carte...");
+			return true;
+		}
+		return false;
 	}
 	
 	private void initPlayers()
