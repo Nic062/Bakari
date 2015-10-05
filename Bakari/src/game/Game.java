@@ -23,11 +23,15 @@ public class Game
 	private boolean isFinished = false;
 	private int currentTour = 1;
 	private BoardGame bg;
-	private Card takedCard = takeCard();
+	private Card takedCard;
 
 	
 	public Game(){}
 	
+	
+	/**
+	 * Méthode qui initialise le jeu. 
+	 */
 	public void initGame()
 	{
 		bg = new BoardGame();
@@ -38,6 +42,9 @@ public class Game
 		startGame();
 	}
 	
+	/**
+	 * Méthode qui génére toutes les cases bloquées pour chaque tour
+	 */
 	private void generateBlockedList()
 	{
 		for(int x=0;x<bg.getNbRow();x++)
@@ -53,6 +60,14 @@ public class Game
 			}
 		}
 	}
+	
+	/**
+	 * Méthode qui liste dans un tableau la liste des cases où le déplacement est possible pour un pion
+	 * @param x1 position X initial du pion
+	 * @param y1 position Y initial du pion
+	 * @param x2 position X souhaité du pion
+	 * @param y2 position Y souhaité du pion
+	 */
 	public void possibility(int x1, int y1, int x2, int y2){
 		
 		for(String b : this.blockedPos){
@@ -66,13 +81,17 @@ public class Game
 		}
 	}
 	
+	/**
+	 * Méthode qui gére la partie
+	 */
 	private void startGame()
 	{
 		System.out.println("Démarrage de la partie...");
-		
+		takedCard = takeCard();
+		System.out.println("La premiere carte tiré est :" +takeCard().toString());
 		while(!isFinished)
 		{
-			takeCard();
+			//takeCard();
 			
 			for(Player pl : this.listPlayers)
 			{
@@ -83,6 +102,10 @@ public class Game
 		}
 	}
 	
+	/**
+	 * Méthode qui vérifie qui doit jouer
+	 * @param pl un joueur
+	 */
 	private void checkTour(Player pl)
 	{
 		System.out.println("Tour " + this.currentTour + " - Joueur : " + pl.getNom());
@@ -94,19 +117,31 @@ public class Game
 		//deplacer(pl.getPawns().get(currentTour), x, y);
 	}
 	
-
+	/**
+	 * Méthode qui permet de déplacer un pion
+	 * @param p un pion
+	 * @param x la position souhaité du pion
+	 * @param y la position souhaité du pion
+	 * @return vrai si le pion a été posé
+	 */
 	public boolean movePawn(Pawn p, int x, int y){
 		int lastPosX = p.getPositionX();
 		int lastPosY = p.getPositionY();
 		Color actualCardColor = listCard.get(currentCard).getColor();
 		possibility(lastPosX, lastPosY, x, y);
 		if(bg.getColor(x, y)!=actualCardColor && lastPosX==x || lastPosY==y && AuthorizedPos.contains("("+x+","+y+")")){
+			// Changement de position à coder
 			return true;
 		}
 		return false;
 	}
 
-	
+	/**
+	 * Méthode qui verifie si un pion arrive à l'arrivé
+	 * @param p un joueur
+	 * @param pa un pion
+	 * @return vrai si un pion est bien arrivé
+	 */
 	public boolean checkWin(Player p, Pawn pa)
 	{
 		if(bg.getChar(pa.getPositionX(),pa.getPositionY())=='f'){
@@ -118,7 +153,9 @@ public class Game
 		return false;
 	}
 	
-
+	/**
+	 * Méthode qui initialise les joueurs en début de partie
+	 */
 	private void initPlayers()
 	{
 		System.out.println("Entrez le nombre de joueur (2-3-4) : ");
@@ -138,7 +175,10 @@ public class Game
 			} 
 		}
 	}
-	
+
+	/**
+	 * Méthode qui initialise les pions en début de partie.
+	 */
 	private void initPawns()
 	{
 		if(this.listPlayers.size() == 2)
@@ -194,8 +234,12 @@ public class Game
 		}*/ 
 	}
 	
+	/**
+	 * Méthode qui initialise les cartes en début de partie.
+	 */
 	private void initCard()
 	{
+		System.out.println("Methode appellé");
 		this.listCard.add(new Card(Color.GREEN));
 		this.listCard.add(new Card(Color.PINK));
 		this.listCard.add(new Card(Color.BLUE));
@@ -205,14 +249,10 @@ public class Game
 		
 	}
 	
-	public void afficher()
-	{
-		for(Card c : this.listCard)
-		{
-			System.out.println("Couleur des cartes : " + c.getColor());
-			System.out.println("Visible : " + c.isVisible());
-		}
-	}
+	/**
+	 * Méthode qui permet de tirer une carte
+	 * @return la carte tiré
+	 */
 	public Card takeCard()
 	{
 		Card theCard;
@@ -233,13 +273,13 @@ public class Game
 		return theCard;	
 	}
 	
-	
+	/**
+	 * Méthode qui retourne la liste des joueurs
+	 * @return
+	 */
 	public List<Player> getPlayers()
 	{
 		return this.listPlayers;
 	}
-	public void setPlayers(List<Player> list)
-	{
-		this.listPlayers = list;
-	}
+	
 }
