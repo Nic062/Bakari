@@ -20,13 +20,11 @@ public class Game
 	private Scanner sc = new Scanner(System.in);
 	private Scanner sc2 = new Scanner(System.in);
 	private int currentCard = 0;
-<<<<<<< HEAD
 	private boolean isFinished = false;
 	private int currentTour = 1;
-=======
 	private BoardGame bg;
 	private Card takedCard = takeCard();
->>>>>>> master
+
 	
 	public Game(){}
 	
@@ -96,8 +94,7 @@ public class Game
 		//deplacer(pl.getPawns().get(currentTour), x, y);
 	}
 	
-<<<<<<< HEAD
-=======
+
 	public boolean movePawn(Pawn p, int x, int y){
 		int lastPosX = p.getPositionX();
 		int lastPosY = p.getPositionY();
@@ -121,7 +118,7 @@ public class Game
 		return false;
 	}
 	
->>>>>>> master
+
 	private void initPlayers()
 	{
 		System.out.println("Entrez le nombre de joueur (2-3-4) : ");
