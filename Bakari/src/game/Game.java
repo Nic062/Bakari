@@ -96,8 +96,9 @@ public class Game
 			for(Player pl : this.listPlayers)
 			{
 				checkTour(pl);
-				this.currentTour++;
+				
 			}
+			this.currentTour++;
 			isFinished = true;
 		}
 	}
