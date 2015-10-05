@@ -48,6 +48,9 @@ public class Player
 	{
 		this.listPawns.add(pawn);
 	}
+	public void removePawn(Pawn pawn) {
+		this.listPawns.remove(pawn);	
+	}
 	
 	public String toString()
 	{

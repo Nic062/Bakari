@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import entities.BoardGame;
 import entities.Card;
 import entities.Color;
 import entities.Pawn;
@@ -14,21 +15,57 @@ public class Game
 {
 	private List<Player> listPlayers = new LinkedList<Player>();
 	private List<Card> listCard = new LinkedList<Card>();
+	private List<String> blockedPos = new LinkedList<String>();
+	private List<String> AuthorizedPos = new LinkedList<String>();
 	private Scanner sc = new Scanner(System.in);
 	private Scanner sc2 = new Scanner(System.in);
 	private int currentCard = 0;
+<<<<<<< HEAD
 	private boolean isFinished = false;
 	private int currentTour = 1;
+=======
+	private BoardGame bg;
+	private Card takedCard = takeCard();
+>>>>>>> master
 	
 	public Game(){}
 	
 	public void initGame()
 	{
+		bg = new BoardGame();
 		System.out.println("---------- Bakari ----------\n\n");
 		initPlayers();
 		initPawns();
 		initCard();
 		startGame();
+	}
+	
+	private void generateBlockedList()
+	{
+		for(int x=0;x<bg.getNbRow();x++)
+			for(int y=0;y<bg.getNbCol();y++)
+				if(takedCard.getColor()==bg.getColor(x, y) || bg.getChar(x, y)=='x' ){
+					blockedPos.add("("+x+","+y+")");
+				}
+		for(Player p : this.listPlayers){
+			for(Pawn pa : p.getPawns()){
+				int x = pa.getPositionX();
+				int y = pa.getPositionY();
+				blockedPos.add("("+x+","+y+")");
+			}
+		}
+	}
+	public void possibility(int x1, int y1, int x2, int y2){
+		
+		for(String b : this.blockedPos){
+			int xb =  Integer.parseInt(b.substring(1,2));
+			int yb =  Integer.parseInt(b.substring(3,4));
+			for(int x=x1;x<x2;x++)
+				for(int y=y1;y<y2;y++)
+					if(x<xb && y<yb)
+						AuthorizedPos.add("("+x+","+y+")");
+						
+		}
 	}
 	
 	private void startGame()
@@ -59,6 +96,32 @@ public class Game
 		//deplacer(pl.getPawns().get(currentTour), x, y);
 	}
 	
+<<<<<<< HEAD
+=======
+	public boolean movePawn(Pawn p, int x, int y){
+		int lastPosX = p.getPositionX();
+		int lastPosY = p.getPositionY();
+		Color actualCardColor = listCard.get(currentCard).getColor();
+		possibility(lastPosX, lastPosY, x, y);
+		if(bg.getColor(x, y)!=actualCardColor && lastPosX==x || lastPosY==y && AuthorizedPos.contains("("+x+","+y+")")){
+			return true;
+		}
+		return false;
+	}
+
+	
+	public boolean checkWin(Player p, Pawn pa)
+	{
+		if(bg.getChar(pa.getPositionX(),pa.getPositionY())=='f'){
+			p.removePawn(pa);
+			takedCard = takeCard();
+			System.out.println("Un pion est arrivé à destination, changement de carte...");
+			return true;
+		}
+		return false;
+	}
+	
+>>>>>>> master
 	private void initPlayers()
 	{
 		System.out.println("Entrez le nombre de joueur (2-3-4) : ");
