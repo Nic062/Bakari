@@ -105,8 +105,5 @@ public class BoardGame
 		g1.afficher();
 
 	}
-	
-	
-	
 
 }
