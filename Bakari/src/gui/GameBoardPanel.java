@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
@@ -14,22 +14,23 @@ public class GameBoardPanel extends JPanel
 	public GameBoardPanel()
 	{
 		grid= new char[][]
-				{
-						{'o','g','o','p','g','b','p','b','o','p','b','g'},
-						{'p','o','b','g','o','p','o','g','b','g','p','o'},
-						{'g','p','g','b','p','b','g','o','p','o','g','p'},
-						{'b','o','p','o','b','o','p','b','g','b','o','b'},
-						{'o','p','b','g','o','g','o','g','b','p','g','p'},
-						{'g','b','o','p','b','p','g','b','o','b','o','g'},
-						{'b','g','p','b','g','b','p','g','p','o','p','b'},
-						{'o','p','g','o','p','g','o','b','o','p','b','g'},
-						{'p','b','o','p','b','p','b','g','p','b','g','o'},
-						{'g','o','g','b','o','g','o','p','o','g','b','p'},
-						{'b','p','b','p','g','o','p','g','p','o','g','o'},
-						{'o','g','p','o','b','g','b','o','g','b','p','b'},
-						{'x','x','x','f','f','f','f','f','f','x','x','x'}
-				};
+		{
+			{'o','g','o','p','g','b','p','b','o','p','b','g'},
+			{'p','o','b','g','o','p','o','g','b','g','p','o'},
+			{'g','p','g','b','p','b','g','o','p','o','g','p'},
+			{'b','o','p','o','b','o','p','b','g','b','o','b'},
+			{'o','p','b','g','o','g','o','g','b','p','g','p'},
+			{'g','b','o','p','b','p','g','b','o','b','o','g'},
+			{'b','g','p','b','g','b','p','g','p','o','p','b'},
+			{'o','p','g','o','p','g','o','b','o','p','b','g'},
+			{'p','b','o','p','b','p','b','g','p','b','g','o'},
+			{'g','o','g','b','o','g','o','p','o','g','b','p'},
+			{'b','p','b','p','g','o','p','g','p','o','g','o'},
+			{'o','g','p','o','b','g','b','o','g','b','p','b'},
+			{'x','x','x','f','f','f','f','f','f','x','x','x'}
+		};
 		
+		this.setLayout(new GridLayout(13, 12));
 		initCases();
 	}
 	
@@ -55,14 +56,9 @@ public class GameBoardPanel extends JPanel
 		}
 	}
 	
-	private CasePanel addCase(Color color)
+	private void addCase(Color color)
 	{
 		CasePanel c = new CasePanel(color);
-		return c;
-	}
-	
-	public void paintComponent(Graphics g)
-	{
-		g.drawRect(0, 0, this.getWidth(), this.getHeight());
+		this.add(c);
 	}
 }
