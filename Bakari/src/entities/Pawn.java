@@ -40,6 +40,11 @@ public class Pawn
 	{
 		return this.positionX;
 	}
+	
+	public void setPositions(int x, int y){
+		this.positionX = x;
+		this.positionY = y;
+	}
 	public void setPositionX(int x)
 	{
 		this.positionX = x;
