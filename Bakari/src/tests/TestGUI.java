@@ -1,11 +1,11 @@
 package tests;
 
-import gui.init.WelcomeWindow;
+import gui.frames.WelcomeWindow;
 
 public class TestGUI
 {
 	public static void main(String[] args)
 	{
-		WelcomeWindow w = new WelcomeWindow(650, 300, "Bienvenue sur Bakari !");
+		new WelcomeWindow(600, 350, "Bienvenue sur Bakari !");
 	}
 }

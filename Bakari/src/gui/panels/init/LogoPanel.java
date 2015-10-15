@@ -1,4 +1,4 @@
-package gui.init;
+package gui.panels.init;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -8,13 +8,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class WelcomePanel extends JPanel
+public class LogoPanel extends JPanel
 {
-	private static final long serialVersionUID = -4525478095708834136L;
-	
+	private static final long serialVersionUID = 4855918642590690918L;
+
 	private String imgName;
 	
-	public WelcomePanel(String imgName)
+	public LogoPanel(String imgName)
 	{
 		this.imgName = imgName;
 	}
@@ -24,11 +24,16 @@ public class WelcomePanel extends JPanel
 		try
 		{
 			Image img = ImageIO.read(new File(this.imgName));
-			g.drawImage(img, 70, 35, this);
+			g.drawImage(img, 50, 40, this);
 		}
 		catch(IOException e)
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public String getImgName()
+	{
+		return this.imgName;
 	}
 }
