@@ -15,19 +15,23 @@ public class Game
 {
 	private List<Player> listPlayers = new LinkedList<Player>();
 	private List<Player> listWinners = new LinkedList<Player>();
-	private List<Card> listCard = new LinkedList<Card>();
-	private List<String> blockedPos = new LinkedList<String>();
-	private List<String> AuthorizedPos = new LinkedList<String>();
+	public List<Card> listCard;
+	public List<String> blockedPos;
+	public List<String> authorizedPos;
 	private Scanner sc = new Scanner(System.in);
 	private Scanner sc2 = new Scanner(System.in);
 	private int currentCard = 0;
 	private boolean isFinished = false;
 	private int currentTour = 1;
-	private BoardGame bg;
-	private Card takedCard;
+	public BoardGame bg;
+	public Card takedCard;
 
 	
-	
+	public Game(){
+		authorizedPos = new LinkedList<String>();
+		blockedPos = new LinkedList<String>();
+		listCard = new LinkedList<Card>();
+	}
 	
 	
 	/**
@@ -36,6 +40,7 @@ public class Game
 	public void initGame()
 	{
 		bg = new BoardGame();
+		new Game();
 		System.out.println("---------- Bakari ----------\n\n");
 		initPlayers();
 		initPawns();
@@ -68,39 +73,39 @@ public class Game
 	 * @param p
 	 */
 	public void possibility(Pawn p){
-		generateBlockedList(); // Génération de la liste blockedList
+		//generateBlockedList(); // Génération de la liste blockedList
 		int posX = p.getPositionX();
 		int posY = p.getPositionY();
 		
 		//Algorithme de recherche de positions autorisées
 		for(int x=posX;x<bg.getSizeGridX();x++)
 			if(bg.getColor(x, posY) != takedCard.getColor() || x==posX)
-				AuthorizedPos.add("("+x+","+posY+")");
+				authorizedPos.add("("+x+","+posY+")");
 			else 
 				break;
 		for(int x=posX;x>=0;x--)
 			if(bg.getColor(x, posY)!=takedCard.getColor() || x==posX)
-				AuthorizedPos.add("("+x+","+posY+")");
+				authorizedPos.add("("+x+","+posY+")");
 			else
 				break;	
 		for(int y=posY;y<bg.getSizeGridY();y++)
 			if(bg.getColor(posX, y)!=takedCard.getColor() || y==posY  || bg.getChar(posX, y)=='f')
-				AuthorizedPos.add("("+posX+","+y+")");
+				authorizedPos.add("("+posX+","+y+")");
 			else
 				break;	
 		for(int y=posY;y>=0;y--)
 			if(bg.getColor(posX, y)!=takedCard.getColor() || y==posY)
-				AuthorizedPos.add("("+posX+","+y+")");
+				authorizedPos.add("("+posX+","+y+")");
 			else
 				break;
 		
 		//Suppression de la position actuelle du pion dans les positions autorisées
-		while(AuthorizedPos.contains("("+posX+","+posY+")"))
-			AuthorizedPos.remove("("+posX+","+posY+")");
+		while(authorizedPos.contains("("+posX+","+posY+")"))
+			authorizedPos.remove("("+posX+","+posY+")");
 		//Suppression des positions non autorisé
 		for(int i=0;i<blockedPos.size();i++)
-			if(AuthorizedPos.contains(blockedPos.get(i)))
-				AuthorizedPos.remove(blockedPos.get(i));
+			if(authorizedPos.contains(blockedPos.get(i)))
+				authorizedPos.remove(blockedPos.get(i));
 	}
 	
 	/**
@@ -158,7 +163,7 @@ public class Game
 	 */
 	public boolean movePawn(Player thePlayer,Pawn p, int x, int y){
 		possibility(p);
-		if(AuthorizedPos.contains("("+x+","+y+")") && !blockedPos.contains("("+x+","+y+")")){
+		if(authorizedPos.contains("("+x+","+y+")") && !blockedPos.contains("("+x+","+y+")")){
 			p.setPositions(x, y);
 			System.out.println("********* Pion déplacé *********");
 			checkWin(thePlayer,p);
@@ -168,11 +173,11 @@ public class Game
 			System.out.println("*********DETAIL*********");
 			System.out.println("Pion non placé !");
 			System.out.println("Couleur carte = " + takedCard.getColor());
-			System.out.println("Taille tab = "+AuthorizedPos.size());
+			System.out.println("Taille tab = "+authorizedPos.size());
 			System.out.println("Position demandé : ("+x+","+y+")");
 			System.out.print("Valeur possible : ");
-			for(int i=0;i<AuthorizedPos.size();i++)
-				System.out.print(AuthorizedPos.get(i));
+			for(int i=0;i<authorizedPos.size();i++)
+				System.out.print(authorizedPos.get(i));
 			System.out.println("");			
 			System.out.println("**********FIN**********");
 		}
@@ -198,7 +203,7 @@ public class Game
 				System.out.println("Fin de la partie. \nLe gagnant est "+listWinners.get(0));
 				isFinished=true;
 			}
-			
+			if(listCard.size()!=0)
 			takedCard = takeCard();
 			System.out.println("Un pion est arrivé à destination, changement de carte...");
 			return true;
@@ -326,13 +331,6 @@ public class Game
 		return theCard;	
 	}
 	
-	/**
-	 * Méthode qui retourne la liste des joueurs
-	 * @return
-	 */
-	public List<Player> getPlayers()
-	{
-		return this.listPlayers;
-	}
+	
 	
 }
