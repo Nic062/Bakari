@@ -284,12 +284,6 @@ public class Game
 						this.listPlayers.get(i).addPawn(new Pawn(Color.WHITE, 0, j));
 			}
 		}
-		
-		// Boucle qui sert juste de test
-		/*for(Player pl : this.listPlayers)
-		{
-			pl.afficher();
-		}*/ 
 	}
 	
 	/**
@@ -297,12 +291,11 @@ public class Game
 	 */
 	private void initCard()
 	{
-		System.out.println("Methode appellé");
 		this.listCard.add(new Card(Color.GREEN));
 		this.listCard.add(new Card(Color.PINK));
 		this.listCard.add(new Card(Color.BLUE));
 		this.listCard.add(new Card(Color.ORANGE));
-		//Collections.shuffle(listCard); 
+		Collections.shuffle(listCard); 
 		System.out.println("Cartes initialisées et mélangées.");
 		
 	}
