@@ -1,5 +1,7 @@
 package gui.panels;
 
+import gui.frames.MainWindow;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 
@@ -11,9 +13,18 @@ public class GameboardPanel extends JPanel
 	private static final long serialVersionUID = 168839659013621228L;
 	
 	private char[][] grid;
+	
+	private MainWindow main;
+	private AboutPanel aPanel;
 
-	public GameboardPanel()
+	public GameboardPanel(MainWindow main)
 	{
+		this.main = main;
+		this.aPanel = main.getAboutPanel();
+		
+		this.aPanel.setTextZone("Initialisation du jeu et des joueurs...");
+		this.aPanel.setTextZone("Début de la partie...");
+		
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.setLayout(new GridLayout(13, 12));
 		

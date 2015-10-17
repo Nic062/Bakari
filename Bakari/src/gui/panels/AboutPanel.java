@@ -15,8 +15,11 @@ public class AboutPanel extends JPanel
 	public AboutPanel()
 	{
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
-		this.textZone.setText("Au tour de joueur 1");
 		this.add(textZone);
+	}
+	
+	public void setTextZone(String texte)
+	{
+		this.textZone.setText(this.textZone.getText() + texte + "\n");
 	}
 }

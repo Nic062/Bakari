@@ -22,6 +22,7 @@ public class ButtonsPanel extends JPanel
 	
 	private JButton optionButton = new JButton("Options");
 	private JButton playButton = new JButton("Jouer !");
+	private JButton quitButton = new JButton("Quitter");
 	
 	private int nbPlayers = 0;
 	private List<Player> players = new LinkedList<Player>();
@@ -34,9 +35,11 @@ public class ButtonsPanel extends JPanel
 		
 		this.optionButton.addActionListener(new OptionsListener());
 		this.playButton.addActionListener(new PlayListener());
+		this.quitButton.addActionListener(new QuitListener());
 
-		this.add(playButton, BorderLayout.CENTER);
-		this.add(optionButton, BorderLayout.SOUTH);
+		this.add(playButton, BorderLayout.NORTH);
+		this.add(optionButton, BorderLayout.CENTER);
+		this.add(quitButton, BorderLayout.SOUTH);
 	}
 	
 	class OptionsListener implements ActionListener
@@ -56,7 +59,7 @@ public class ButtonsPanel extends JPanel
 		{
 			if(nbPlayers == 0)
 			{
-				JOptionPane.showMessageDialog(null, "Vous devez d'abord définir le nombre de joueurs dans les options avant de commencer une partie.", "Erreur", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Vous devez d'abord dÃ©finir le nombre de joueurs dans les options avant de commencer une partie.", "Erreur", JOptionPane.ERROR_MESSAGE);
 			}
 			else
 			{
@@ -69,6 +72,15 @@ public class ButtonsPanel extends JPanel
 				main.setVisible(true);
 				w.setVisible(false);
 			}
+		}
+	}
+	
+	class QuitListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			w.dispose();
 		}
 	}
 	

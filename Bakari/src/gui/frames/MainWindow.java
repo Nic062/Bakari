@@ -19,7 +19,7 @@ public class MainWindow extends JFrame
 	
 	private CardPanel cPanel = new CardPanel();
 	private AboutPanel aPanel = new AboutPanel();
-	private GameboardPanel gPanel = new GameboardPanel();
+	private GameboardPanel gPanel = new GameboardPanel(this);
 
 	public MainWindow(List<Player> players)
 	{
@@ -32,5 +32,10 @@ public class MainWindow extends JFrame
 		this.add(gPanel, BorderLayout.CENTER);
 		this.add(aPanel, BorderLayout.SOUTH);
 		this.add(cPanel, BorderLayout.WEST);
+	}
+	
+	public AboutPanel getAboutPanel()
+	{
+		return this.aPanel;
 	}
 }
