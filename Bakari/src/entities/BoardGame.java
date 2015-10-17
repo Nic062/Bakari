@@ -6,7 +6,7 @@ public class BoardGame
 	private int nbRow;
 	private int nbCol;
 	private char [][] grid;
-	
+	private Color color;
 	
 	public BoardGame() 
 	{
@@ -33,11 +33,21 @@ public class BoardGame
 					{'o','g','p','o','b','g','b','o','g','b','p','b'},
 					{'x','x','x','f','f','f','f','f','f','x','x','x'}
 			};
+			
 	}
-	
+	public void setColor(Color c){
+		this.color= c;
+	}
+	public int getSizeGridY(){
+		return grid.length;
+	}
+	public int getSizeGridX(){
+		if(grid.length==0) return 0;
+		else return grid[0].length;
+	}
 	public char getChar(int x, int y)
 	{
-		return grid[x][y];
+		return grid[y][x];
 	}
 
 
@@ -53,7 +63,7 @@ public class BoardGame
 		}
 	}
 	public Color getColor(int x, int y){
-		char letter = grid[x][y];
+		char letter = grid[y][x];
 		switch (letter) {
 		case 'o':
 			return Color.ORANGE;
@@ -70,8 +80,8 @@ public class BoardGame
 	
 	public void afficher(){
 		System.out.println();
-		for(int x=0;x<12;x++){
-			for(int y=0;y<13;y++){
+		for(int x=0;x<13;x++){
+			for(int y=0;y<12;y++){
 				System.out.print(" | " + grid[x][y]);
 			}
 			System.out.println(" | ");
@@ -99,11 +109,5 @@ public class BoardGame
 		this.grid = grid;
 	}
 	
-	
-	public static void main(String[] args) {
-		BoardGame g1 = new BoardGame();
-		g1.afficher();
-
-	}
 
 }
