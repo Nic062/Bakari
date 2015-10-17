@@ -84,6 +84,8 @@ public class TestJUnit4 extends TestCase {
 		init();
 		g.listCard.add(c1);
 		g.listCard.add(c2);
+		g.takeCard();
+		g.takeCard();
 		assertEquals(g.takeCard(), c1);
 	}
 
