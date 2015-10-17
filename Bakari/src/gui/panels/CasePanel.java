@@ -19,6 +19,7 @@ public class CasePanel extends JPanel
 		this.color = color;
 		this.setLayout(new GridLayout(1, 0));
 		this.setBackground(color);
+		this.setForeground(Color.GRAY);
 	}
 	
 	public void paintComponent(Graphics g)
@@ -28,5 +29,10 @@ public class CasePanel extends JPanel
 		
 		g2d.setPaint(gp);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+	}
+	
+	public Color getColor()
+	{
+		return this.color;
 	}
 }
