@@ -4,12 +4,12 @@ import java.awt.BorderLayout;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import entities.Player;
 import gui.panels.AboutPanel;
 import gui.panels.CardPanel;
 import gui.panels.GameboardPanel;
-
-import javax.swing.JFrame;
 
 public class MainWindow extends JFrame
 {

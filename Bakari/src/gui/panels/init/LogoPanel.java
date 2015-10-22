@@ -2,7 +2,6 @@ package gui.panels.init;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -23,7 +22,7 @@ public class LogoPanel extends JPanel
 	{
 		try
 		{
-			Image img = ImageIO.read(new File(this.imgName));
+			Image img = ImageIO.read(this.getClass().getResource(imgName));
 			g.drawImage(img, 50, 40, this);
 		}
 		catch(IOException e)

@@ -16,6 +16,8 @@ public class AboutPanel extends JPanel
 	{
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.add(textZone);
+		
+		this.textZone.setEditable(false);
 	}
 	
 	public void setTextZone(String texte)

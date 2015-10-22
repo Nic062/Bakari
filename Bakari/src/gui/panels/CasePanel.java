@@ -19,13 +19,12 @@ public class CasePanel extends JPanel
 		this.color = color;
 		this.setLayout(new GridLayout(1, 0));
 		this.setBackground(color);
-		this.setForeground(Color.GRAY);
 	}
 	
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2d = (Graphics2D) g;
-		GradientPaint gp = new GradientPaint(0, 0, this.getBackground(), this.getWidth(), this.getHeight(), this.getForeground());
+		GradientPaint gp = new GradientPaint(0, 0, this.getBackground(), this.getWidth(), this.getHeight(), Color.LIGHT_GRAY);
 		
 		g2d.setPaint(gp);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());

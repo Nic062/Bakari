@@ -65,7 +65,15 @@ public class ButtonsPanel extends JPanel
 			{
 				for(int i = 1; i <= nbPlayers; i++)
 				{
-					players.add(new Player(JOptionPane.showInputDialog(null, "Indiquez le nom du joueur " + i + " : ", "Nom du joueur " + i, JOptionPane.QUESTION_MESSAGE)));
+					String nomPlayer = "";
+					
+					do
+					{
+						nomPlayer = JOptionPane.showInputDialog(null, "Indiquez le nom du joueur " + i + " : ", "Nom du joueur " + i, JOptionPane.QUESTION_MESSAGE);
+					}
+					while(nomPlayer.isEmpty());
+					
+					players.add(new Player(nomPlayer));
 				}
 				
 				MainWindow main = new MainWindow(players);

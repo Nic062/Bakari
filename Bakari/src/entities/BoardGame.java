@@ -1,8 +1,9 @@
 package entities;
 
-
 public class BoardGame
 {
+	private static final long serialVersionUID = -5525980078260793399L;
+	
 	private int nbRow;
 	private int nbCol;
 	private char [][] grid;
@@ -35,6 +36,7 @@ public class BoardGame
 			};
 			
 	}
+	
 	public void setColor(Color c){
 		this.color= c;
 	}
@@ -108,6 +110,4 @@ public class BoardGame
 	public void setGrid(char[][] grid) {
 		this.grid = grid;
 	}
-	
-
 }
