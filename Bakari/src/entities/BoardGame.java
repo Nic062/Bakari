@@ -6,36 +6,25 @@ public class BoardGame
 	
 	private int nbRow;
 	private int nbCol;
-	private char [][] grid;
+	private static char [][] grid =  new char[][]
+	{
+		{'o','g','o','p','g','b','p','b','o','p','b','g'},
+		{'p','o','b','g','o','p','o','g','b','g','p','o'},
+		{'g','p','g','b','p','b','g','o','p','o','g','p'},
+		{'b','o','p','o','b','o','p','b','g','b','o','b'},
+		{'o','p','b','g','o','g','o','g','b','p','g','p'},
+		{'g','b','o','p','b','p','g','b','o','b','o','g'},
+		{'b','g','p','b','g','b','p','g','p','o','p','b'},
+		{'o','p','g','o','p','g','o','b','o','p','b','g'},
+		{'p','b','o','p','b','p','b','g','p','b','g','o'},
+		{'g','o','g','b','o','g','o','p','o','g','b','p'},
+		{'b','p','b','p','g','o','p','g','p','o','g','o'},
+		{'o','g','p','o','b','g','b','o','g','b','p','b'},
+		{'x','x','x','f','f','f','f','f','f','x','x','x'}
+	};
 	private Color color;
 	
-	public BoardGame() 
-	{
-		// Création de la grille de jeu officiel
-			// o -> Lézard orange
-			// p -> Oiseau rose
-			// g -> Rhino vert
-			// b -> Taureau bleu
-			// x -> Case non jouable
-			// f -> Zone de fin de partie
-			grid= new char[][]
-			{
-					{'o','g','o','p','g','b','p','b','o','p','b','g'},
-					{'p','o','b','g','o','p','o','g','b','g','p','o'},
-					{'g','p','g','b','p','b','g','o','p','o','g','p'},
-					{'b','o','p','o','b','o','p','b','g','b','o','b'},
-					{'o','p','b','g','o','g','o','g','b','p','g','p'},
-					{'g','b','o','p','b','p','g','b','o','b','o','g'},
-					{'b','g','p','b','g','b','p','g','p','o','p','b'},
-					{'o','p','g','o','p','g','o','b','o','p','b','g'},
-					{'p','b','o','p','b','p','b','g','p','b','g','o'},
-					{'g','o','g','b','o','g','o','p','o','g','b','p'},
-					{'b','p','b','p','g','o','p','g','p','o','g','o'},
-					{'o','g','p','o','b','g','b','o','g','b','p','b'},
-					{'x','x','x','f','f','f','f','f','f','x','x','x'}
-			};
-			
-	}
+	public BoardGame(){}
 	
 	public void setColor(Color c){
 		this.color= c;
@@ -104,7 +93,7 @@ public class BoardGame
 	public void setNbCol(int nbCol) {
 		this.nbCol = nbCol;
 	}
-	public char[][] getGrid() {
+	public static char[][] getGrid() {
 		return grid;
 	}
 	public void setGrid(char[][] grid) {

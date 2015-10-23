@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import entities.BoardGame;
+
 public class GameboardPanel extends JPanel
 {
 	private static final long serialVersionUID = 168839659013621228L;
@@ -28,22 +30,7 @@ public class GameboardPanel extends JPanel
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.setLayout(new GridLayout(13, 12));
 		
-		grid= new char[][]
-		{
-			{'o','g','o','p','g','b','p','b','o','p','b','g'},
-			{'p','o','b','g','o','p','o','g','b','g','p','o'},
-			{'g','p','g','b','p','b','g','o','p','o','g','p'},
-			{'b','o','p','o','b','o','p','b','g','b','o','b'},
-			{'o','p','b','g','o','g','o','g','b','p','g','p'},
-			{'g','b','o','p','b','p','g','b','o','b','o','g'},
-			{'b','g','p','b','g','b','p','g','p','o','p','b'},
-			{'o','p','g','o','p','g','o','b','o','p','b','g'},
-			{'p','b','o','p','b','p','b','g','p','b','g','o'},
-			{'g','o','g','b','o','g','o','p','o','g','b','p'},
-			{'b','p','b','p','g','o','p','g','p','o','g','o'},
-			{'o','g','p','o','b','g','b','o','g','b','p','b'},
-			{'x','x','x','f','f','f','f','f','f','x','x','x'}
-		};
+		this.grid = BoardGame.getGrid();
 		
 		initCases();
 	}
