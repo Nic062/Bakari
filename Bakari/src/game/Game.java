@@ -13,17 +13,31 @@ import entities.Player;
 
 public class Game
 {
-	private List<Player> listPlayers = new LinkedList<Player>();
-	private List<Card> listCard = new LinkedList<Card>();
-	private List<String> blockedPos = new LinkedList<String>();
-	private List<String> AuthorizedPos = new LinkedList<String>();
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+	public List<Player> listPlayers;
+	public List<Player> listWinners;
+	public List<Card> listCard;
+	public List<String> blockedPos;
+	public List<String> authorizedPos;
 	private Scanner sc = new Scanner(System.in);
 	private Scanner sc2 = new Scanner(System.in);
 	private int currentCard = 0;
-	private BoardGame bg;
-	private Card takedCard = takeCard();
+	private boolean isFinished = false;
+	private int currentTour = 1;
+	public BoardGame bg;
+	public Card takedCard;
+
 	
-	public Game(){}
+	public Game(){
+		listPlayers = new LinkedList<Player>();
+		listWinners = new LinkedList<Player>();
+		authorizedPos = new LinkedList<String>();
+		blockedPos = new LinkedList<String>();
+		listCard = new LinkedList<Card>();
+	}
 	
 	public void initGame()
 	{
