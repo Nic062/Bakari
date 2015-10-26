@@ -6,29 +6,25 @@ public class BoardGame
 	
 	private int nbRow;
 	private int nbCol;
-	private static char [][] grid =  new char[][]
+	private Colour[][] grid = new Colour[][]
 	{
-		{'o','g','o','p','g','b','p','b','o','p','b','g'},
-		{'p','o','b','g','o','p','o','g','b','g','p','o'},
-		{'g','p','g','b','p','b','g','o','p','o','g','p'},
-		{'b','o','p','o','b','o','p','b','g','b','o','b'},
-		{'o','p','b','g','o','g','o','g','b','p','g','p'},
-		{'g','b','o','p','b','p','g','b','o','b','o','g'},
-		{'b','g','p','b','g','b','p','g','p','o','p','b'},
-		{'o','p','g','o','p','g','o','b','o','p','b','g'},
-		{'p','b','o','p','b','p','b','g','p','b','g','o'},
-		{'g','o','g','b','o','g','o','p','o','g','b','p'},
-		{'b','p','b','p','g','o','p','g','p','o','g','o'},
-		{'o','g','p','o','b','g','b','o','g','b','p','b'},
-		{'x','x','x','f','f','f','f','f','f','x','x','x'}
+		{Colour.ORANGE,Colour.GREEN,Colour.ORANGE,Colour.PINK,Colour.GREEN,Colour.BLUE,Colour.PINK,Colour.BLUE,Colour.ORANGE,Colour.PINK,Colour.BLUE,Colour.GREEN},
+		{Colour.PINK,Colour.ORANGE,Colour.BLUE,Colour.GREEN,Colour.ORANGE,Colour.PINK,Colour.ORANGE,Colour.GREEN,Colour.BLUE,Colour.GREEN,Colour.PINK,Colour.ORANGE},
+		{Colour.GREEN,Colour.PINK,Colour.GREEN,Colour.BLUE,Colour.PINK,Colour.BLUE,Colour.GREEN,Colour.ORANGE,Colour.PINK,Colour.ORANGE,Colour.GREEN,Colour.PINK},
+		{Colour.BLUE,Colour.ORANGE,Colour.PINK,Colour.ORANGE,Colour.BLUE,Colour.ORANGE,Colour.PINK,Colour.BLUE,Colour.GREEN,Colour.BLUE,Colour.ORANGE,Colour.BLUE},
+		{Colour.ORANGE,Colour.PINK,Colour.BLUE,Colour.GREEN,Colour.ORANGE,Colour.GREEN,Colour.ORANGE,Colour.GREEN,Colour.BLUE,Colour.PINK,Colour.GREEN,Colour.PINK},
+		{Colour.GREEN,Colour.BLUE,Colour.ORANGE,Colour.PINK,Colour.BLUE,Colour.PINK,Colour.GREEN,Colour.BLUE,Colour.ORANGE,Colour.BLUE,Colour.ORANGE,Colour.GREEN},
+		{Colour.BLUE,Colour.GREEN,Colour.PINK,Colour.BLUE,Colour.GREEN,Colour.BLUE,Colour.PINK,Colour.GREEN,Colour.PINK,Colour.ORANGE,Colour.PINK,Colour.BLUE},
+		{Colour.ORANGE,Colour.PINK,Colour.GREEN,Colour.ORANGE,Colour.PINK,Colour.GREEN,Colour.ORANGE,Colour.BLUE,Colour.ORANGE,Colour.PINK,Colour.BLUE,Colour.GREEN},
+		{Colour.PINK,Colour.BLUE,Colour.ORANGE,Colour.PINK,Colour.BLUE,Colour.PINK,Colour.BLUE,Colour.GREEN,Colour.PINK,Colour.BLUE,Colour.GREEN,Colour.ORANGE},
+		{Colour.GREEN,Colour.ORANGE,Colour.GREEN,Colour.BLUE,Colour.ORANGE,Colour.GREEN,Colour.ORANGE,Colour.PINK,Colour.ORANGE,Colour.GREEN,Colour.BLUE,Colour.PINK},
+		{Colour.BLUE,Colour.PINK,Colour.BLUE,Colour.PINK,Colour.GREEN,Colour.ORANGE,Colour.PINK,Colour.GREEN,Colour.PINK,Colour.ORANGE,Colour.GREEN,Colour.ORANGE},
+		{Colour.ORANGE,Colour.GREEN,Colour.PINK,Colour.ORANGE,Colour.BLUE,Colour.GREEN,Colour.BLUE,Colour.ORANGE,Colour.GREEN,Colour.BLUE,Colour.PINK,Colour.BLUE},
+		{Colour.BLACK,Colour.BLACK,Colour.BLACK,Colour.WHITE,Colour.WHITE,Colour.WHITE,Colour.WHITE,Colour.WHITE,Colour.WHITE,Colour.BLACK,Colour.BLACK,Colour.BLACK}
 	};
-	private Color color;
 	
 	public BoardGame(){}
-	
-	public void setColor(Color c){
-		this.color= c;
-	}
+
 	public int getSizeGridY(){
 		return grid.length;
 	}
@@ -36,37 +32,14 @@ public class BoardGame
 		if(grid.length==0) return 0;
 		else return grid[0].length;
 	}
-	public char getChar(int x, int y)
+	public Colour getChar(int x, int y)
 	{
 		return grid[y][x];
 	}
 
-
-	public BoardGame(int n, int p) {
-		nbRow = n;
-		nbCol = p;
-		grid = new char[nbRow][nbCol];
-		for(int i=0;i<nbRow;i++){
-			for(int j=0;j<nbCol;j++){
-				grid[i][j]='x';
-			}
-			
-		}
-	}
-	public Color getColor(int x, int y){
-		char letter = grid[y][x];
-		switch (letter) {
-		case 'o':
-			return Color.ORANGE;
-		case 'p':
-			return Color.PINK;
-		case 'g':
-			return Color.GREEN;
-		case 'b':
-			return Color.BLUE;
-		default:
-			return null;
-		}
+	
+	public Colour getColour(int x, int y){
+		return grid[y][x];
 	}
 	
 	public void afficher(){
@@ -93,10 +66,10 @@ public class BoardGame
 	public void setNbCol(int nbCol) {
 		this.nbCol = nbCol;
 	}
-	public static char[][] getGrid() {
+	public Colour[][] getGrid() {
 		return grid;
 	}
-	public void setGrid(char[][] grid) {
+	public void setGrid(Colour[][] grid) {
 		this.grid = grid;
 	}
 }

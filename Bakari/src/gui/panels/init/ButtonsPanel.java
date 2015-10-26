@@ -17,12 +17,8 @@ import gui.frames.WelcomeWindow;
 public class ButtonsPanel extends JPanel
 {
 	private static final long serialVersionUID = 6247499294463790432L;
-	
+	/*
 	private WelcomeWindow w;
-	
-	private JButton optionButton = new JButton("Options");
-	private JButton playButton = new JButton("Jouer !");
-	private JButton quitButton = new JButton("Quitter");
 	
 	private int nbPlayers = 0;
 	private List<Player> players = new LinkedList<Player>();
@@ -33,7 +29,7 @@ public class ButtonsPanel extends JPanel
 		
 		this.setLayout(new BorderLayout());
 		
-		this.optionButton.addActionListener(new OptionsListener());
+		//this.optionButton.addActionListener(new OptionsListener());
 		this.playButton.addActionListener(new PlayListener());
 		this.quitButton.addActionListener(new QuitListener());
 
@@ -96,4 +92,5 @@ public class ButtonsPanel extends JPanel
 	{
 		return this.playButton;
 	}
+	*/
 }

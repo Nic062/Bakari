@@ -1,65 +1,83 @@
 package gui.panels;
 
-import gui.frames.MainWindow;
-
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import entities.BoardGame;
+import entities.Colour;
+import entities.Pawn;
+import entities.Player;
+import game.Game;
 
 public class GameboardPanel extends JPanel
 {
 	private static final long serialVersionUID = 168839659013621228L;
 	
-	private char[][] grid;
+	private Game game;
 	
-	private MainWindow main;
-	private AboutPanel aPanel;
+	private JButton[][] lb;
+	private JButton buttonSelected;
 
-	public GameboardPanel(MainWindow main)
+	public GameboardPanel(Game g)
 	{
-		this.main = main;
-		this.aPanel = main.getAboutPanel();
-		
-		this.aPanel.setTextZone("Initialisation du jeu et des joueurs...");
-		this.aPanel.setTextZone("Début de la partie...");
-		
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		this.setLayout(new GridLayout(13, 12));
+		this.game = g;
+		this.setLayout(null);
+		int y = g.getBoardGame().getGrid().length;
+		int x = g.getBoardGame().getGrid()[0].length;
+		lb = new JButton[y][x];
 		
-		this.grid = BoardGame.getGrid();
-		
-		initCases();
-	}
-	
-	private void initCases()
-	{
-		for(char cases[] : grid)
-		{
-			for(char c : cases)
-			{
-				if(c == 'o')
-					addCase(Color.ORANGE);
-				else if(c == 'b')
-					addCase(Color.BLUE);
-				else if(c == 'g')
-					addCase(Color.GREEN);
-				else if(c == 'p')
-					addCase(new Color(138, 2, 177)); // Violet
-				else if(c == 'x')
-					addCase(Color.WHITE);
-				else
-					addCase(Color.BLACK);
+		for(int i = 0; i < y; i++) {
+			for(int j = 0; j < x; j++) {
+				lb[i][j] = new JButton();
+				lb[i][j].setMargin(new Insets(1,1,1,1));
+				lb[i][j].setFont(new Font("Arial", Font.PLAIN, 35));
+				lb[i][j].setBackground(Colour.colourToColor(g.getBoardGame().getGrid()[i][j]));
+				lb[i][j].setBounds(j * 35, i * 35, 35, 35);
+				lb[i][j].addActionListener(new CaseListener());
+				this.add(lb[i][j]);
 			}
 		}
 	}
 	
-	private void addCase(Color color)
+	public void update()
 	{
-		CasePanel c = new CasePanel(color);
-		this.add(c);
+		int y = game.getBoardGame().getGrid().length;
+		int x = game.getBoardGame().getGrid()[0].length;
+		for(int i = 0; i < y; i++) {
+			for(int j = 0; j < x; j++) {
+				lb[i][j].setText("");
+			}
+		}
+		for(Player pl : game.getListPlayers()) {
+			for(Pawn pa : pl.getPawns()) {
+				lb[pa.getPositionY()][pa.getPositionX()].setText("●");
+				lb[pa.getPositionY()][pa.getPositionX()].setForeground(Colour.colourToColor(pa.getColour()));
+			}
+		}
+	}
+	
+	class CaseListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if(buttonSelected == null) {
+				buttonSelected = (JButton)e.getSource();
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "to do");
+				// game.movePawn(thePlayer, p, x, y);
+				buttonSelected = null;
+			}
+		}
 	}
 }

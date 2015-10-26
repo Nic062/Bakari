@@ -1,41 +1,46 @@
 package gui.frames;
 
 import java.awt.BorderLayout;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JFrame;
 
-import entities.Player;
+import game.Game;
 import gui.panels.AboutPanel;
 import gui.panels.CardPanel;
 import gui.panels.GameboardPanel;
 
-public class MainWindow extends JFrame
-{
+public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -809655995462146760L;
 	
-	private List<Player> players = new LinkedList<Player>();
+	private CardPanel cPanel;
+	private AboutPanel aPanel;
+	private GameboardPanel gPanel;
 	
-	private CardPanel cPanel = new CardPanel();
-	private AboutPanel aPanel = new AboutPanel();
-	private GameboardPanel gPanel = new GameboardPanel(this);
+	private Game game;
 
-	public MainWindow(List<Player> players)
-	{
+	public MainWindow(Game g) {
+		this.game = g;
+		this.cPanel = new CardPanel();
+		this.aPanel = new AboutPanel();
+		this.gPanel = new GameboardPanel(g);
 		this.setSize(800, 600);
-		this.setTitle("Bakari - Partie en cours");
+		this.setTitle("Bakari - En cours");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		
-		this.add(gPanel, BorderLayout.CENTER);
 		this.add(aPanel, BorderLayout.SOUTH);
 		this.add(cPanel, BorderLayout.WEST);
+		this.add(gPanel, BorderLayout.CENTER);
+		
+		this.setVisible(true);
 	}
 	
-	public AboutPanel getAboutPanel()
-	{
-		return this.aPanel;
+	public void addText(String t) {
+		aPanel.addText(t);
+	}
+	
+	public void updatePawns() {
+		gPanel.update();
 	}
 }

@@ -3,13 +3,13 @@ package entities;
 
 public class Card
 {
-	private Color color;
+	private Colour colour;
 	private boolean isVisible;
 	
 	public Card(){}
-	public Card(Color color)
+	public Card(Colour colour)
 	{
-		this.color = color;
+		this.colour = colour;
 		this.isVisible = false;
 	}
 	
@@ -23,17 +23,17 @@ public class Card
 		this.isVisible = isVisible;
 	}
 	
-	public Color getColor()
+	public Colour getColor()
 	{
-		return this.color;
+		return this.colour;
 	}
-	public void setColor(Color color)
+	public void setColor(Colour colour)
 	{
-		this.color = color;
+		this.colour = colour;
 	}
 
 	public String toString()
 	{
-		return "Carte de couleur " + color.toString() + ", " + ((isVisible) ? "visible" : "non visible");
+		return "Carte de couleur " + colour.toString() + ", " + ((isVisible) ? "visible" : "non visible");
 	}
 }

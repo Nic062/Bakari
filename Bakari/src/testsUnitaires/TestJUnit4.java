@@ -2,7 +2,7 @@ package testsUnitaires;
 
 import entities.BoardGame;
 import entities.Card;
-import entities.Color;
+import entities.Colour;
 import entities.Pawn;
 import entities.Player;
 import game.Game;
@@ -30,12 +30,11 @@ public class TestJUnit4 extends TestCase {
 	
 	public void init(){
 		g = new Game();
-		g.bg = new BoardGame();
 		p1 = new Player();
 		p2 = new Player();
-		c1 = new Card(Color.GREEN);
-		c2 = new Card(Color.ORANGE);
-		g.takedCard = new Card(Color.GREEN);
+		c1 = new Card(Colour.GREEN);
+		c2 = new Card(Colour.ORANGE);
+		g.takedCard = new Card(Colour.GREEN);
 		pa1 = new Pawn(0, 0);
 		pa2 = new Pawn(4, 1);
 		pa3 = new Pawn(5,12);
