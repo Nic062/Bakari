@@ -7,13 +7,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class LogoPanel extends JPanel
+public class ImagePanel extends JPanel
 {
 	private static final long serialVersionUID = 4855918642590690918L;
 
 	private String imgName;
 	
-	public LogoPanel(String imgName)
+	public ImagePanel(String imgName)
 	{
 		this.imgName = imgName;
 	}
@@ -23,7 +23,7 @@ public class LogoPanel extends JPanel
 		try
 		{
 			Image img = ImageIO.read(this.getClass().getResource(imgName));
-			g.drawImage(img, 50, 40, this);
+			g.drawImage(img, 0, 0, this);
 		}
 		catch(IOException e)
 		{
@@ -31,6 +31,10 @@ public class LogoPanel extends JPanel
 		}
 	}
 	
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+
 	public String getImgName()
 	{
 		return this.imgName;

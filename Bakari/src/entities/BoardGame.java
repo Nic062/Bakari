@@ -32,11 +32,6 @@ public class BoardGame
 		if(grid.length==0) return 0;
 		else return grid[0].length;
 	}
-	public Colour getChar(int x, int y)
-	{
-		return grid[y][x];
-	}
-
 	
 	public Colour getColour(int x, int y){
 		return grid[y][x];

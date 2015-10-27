@@ -24,11 +24,11 @@ public class GameboardPanel extends JPanel
 	private Game game;
 	
 	private JButton[][] lb;
-	private JButton buttonSelected;
+	private Pawn pawnSelected;
 
 	public GameboardPanel(Game g)
 	{
-		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		//this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.game = g;
 		this.setLayout(null);
 		int y = g.getBoardGame().getGrid().length;
@@ -41,7 +41,7 @@ public class GameboardPanel extends JPanel
 				lb[i][j].setMargin(new Insets(1,1,1,1));
 				lb[i][j].setFont(new Font("Arial", Font.PLAIN, 35));
 				lb[i][j].setBackground(Colour.colourToColor(g.getBoardGame().getGrid()[i][j]));
-				lb[i][j].setBounds(j * 35, i * 35, 35, 35);
+				lb[i][j].setBounds(j * 35 + 35, i * 35, 35, 35);
 				lb[i][j].addActionListener(new CaseListener());
 				this.add(lb[i][j]);
 			}
@@ -70,13 +70,40 @@ public class GameboardPanel extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			if(buttonSelected == null) {
-				buttonSelected = (JButton)e.getSource();
+			if(pawnSelected == null) {
+				JButton button = (JButton)e.getSource();
+				int y = game.getBoardGame().getGrid().length;
+				int x = game.getBoardGame().getGrid()[0].length;
+				for(int i = 0; i < y; i++) {
+					for(int j = 0; j < x; j++) {
+						if(lb[i][j].equals(button)) {
+							for(Pawn p : game.getCurrentPlayer().getPawns()) {
+								if(p.getPositionX() == j && p.getPositionY() == i) {
+									pawnSelected = p;
+									break;
+								}
+							}
+							break;
+						}
+					}
+				}
+				
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "to do");
-				// game.movePawn(thePlayer, p, x, y);
-				buttonSelected = null;
+				JButton button = (JButton)e.getSource();
+				int y = game.getBoardGame().getGrid().length;
+				int x = game.getBoardGame().getGrid()[0].length;
+				for(int i = 0; i < y; i++) {
+					for(int j = 0; j < x; j++) {
+						if(lb[i][j].equals(button)) {
+							if(!game.movePawn(game.getCurrentPlayer(), pawnSelected, j, i)) {
+								JOptionPane.showMessageDialog(null, "Déplacement impossible");
+							}
+							break;
+						}
+					}
+				}
+				pawnSelected = null;
 			}
 		}
 	}

@@ -20,7 +20,7 @@ public class MainWindow extends JFrame {
 
 	public MainWindow(Game g) {
 		this.game = g;
-		this.cPanel = new CardPanel();
+		this.cPanel = new CardPanel(g);
 		this.aPanel = new AboutPanel();
 		this.gPanel = new GameboardPanel(g);
 		this.setSize(800, 600);
@@ -28,7 +28,6 @@ public class MainWindow extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		
 		this.add(aPanel, BorderLayout.SOUTH);
 		this.add(cPanel, BorderLayout.WEST);
 		this.add(gPanel, BorderLayout.CENTER);
@@ -38,6 +37,10 @@ public class MainWindow extends JFrame {
 	
 	public void addText(String t) {
 		aPanel.addText(t);
+	}
+	
+	public void updateCard() {
+		cPanel.update();
 	}
 	
 	public void updatePawns() {

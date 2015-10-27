@@ -1,6 +1,6 @@
 package gui.frames;
 
-import gui.panels.init.LogoPanel;
+import gui.panels.init.ImagePanel;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import game.Game;
 
@@ -19,7 +20,7 @@ public class WelcomeWindow extends JFrame
 	private int width = 600;
 	private int height = 350;
 	
-	private LogoPanel logoPanel;
+	private ImagePanel imagePanel;
 	
 	private JButton playButton;
 	private JButton optionButton;
@@ -39,25 +40,25 @@ public class WelcomeWindow extends JFrame
 		
 		Dimension size;
 		
-		logoPanel = new LogoPanel("logo.png");
-		logoPanel.setBounds(0, 0, width, height);
-		this.add(logoPanel);
+		imagePanel = new ImagePanel("logo.png");
+		imagePanel.setBounds((int)((0.5 * width) - (0.5 * 500)), 0, 500, 162);
+		this.add(imagePanel);
 		
 		playButton = new JButton("Jouer");
 		size = playButton.getPreferredSize();
-		playButton.setBounds((int)((0.5 * width) - (0.5 * size.width)), 230, size.width, size.height);
+		playButton.setBounds((int)((0.5 * width) - (0.5 * 100)), 230, 100, size.height);
 		playButton.addActionListener(new PlayListener());
 		this.add(playButton);
 		
 		optionButton = new JButton("Options");
 		size = optionButton.getPreferredSize();
-		optionButton.setBounds((int)((0.5 * width) - (0.5 * size.width)), 260, size.width, size.height);
+		optionButton.setBounds((int)((0.5 * width) - (0.5 * 100)), 260, 100, size.height);
 		optionButton.addActionListener(new OptionsListener());
 		this.add(optionButton);
 		
 		quitButton = new JButton("Quitter");
 		size = quitButton.getPreferredSize();
-		quitButton.setBounds((int)((0.5 * width) - (0.5 * size.width)), 290, size.width, size.height);
+		quitButton.setBounds((int)((0.5 * width) - (0.5 * 100)), 290, 100, size.height);
 		quitButton.addActionListener(new QuitListener());
 		this.add(quitButton);
 		
@@ -69,12 +70,14 @@ public class WelcomeWindow extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			String nomPlayer = "";
+			UIManager.put("OptionPane.cancelButtonText", "Lancer la partie" ) ;
+			UIManager.put("OptionPane.okButtonText", "Ajouter" ) ;
+			String nomPlayer = null;
 			int i = 1;
 			while(i < 5) {
-				nomPlayer = "";
+				nomPlayer = null;
 				nomPlayer = JOptionPane.showInputDialog(null, "Indiquez le nom du joueur " + i + " : ", "Nom du joueur " + i, JOptionPane.QUESTION_MESSAGE);
-				if(nomPlayer.isEmpty() && i > 2) {
+				if(nomPlayer == null && i > 2) {
 					break;
 				}
 				else if(!nomPlayer.isEmpty()) {
@@ -83,7 +86,7 @@ public class WelcomeWindow extends JFrame
 				}
 			}
 			WelcomeWindow.this.dispose();
-			game.start();
+			game.startGame();
 		}
 	}
 	

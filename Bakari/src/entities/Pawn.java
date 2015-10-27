@@ -6,34 +6,25 @@ public class Pawn
 	private Colour colour;
 	private int positionX;
 	private int positionY;
-	private int nombre;
 	
 	public Pawn()
 	{
 		this.positionX = 0;
 		this.positionY = 0;
 		this.colour = null;
-		this.nombre = 0;
 	}
 	
-	public Pawn(Colour colour, int x, int y, int nombre)
+	public Pawn(Colour colour, int x, int y)
 	{
 		this.positionX = x;
 		this.positionY = y;
 		this.colour = colour;
-		this.nombre = nombre;
 	}
 	
 	public Pawn(int x, int y)
 	{
 		this.positionX = x;
 		this.positionY = y;
-	}
-	public Pawn(Colour colour, int x, int y)
-	{
-		this.positionX = x;
-		this.positionY = y;
-		this.colour = colour;
 	}
 	
 	public int getPositionX()
@@ -66,15 +57,6 @@ public class Pawn
 	public void setColour(Colour colour)
 	{
 		this.colour = colour;
-	}
-	
-	public int getNombre()
-	{
-		return this.nombre;
-	}
-	public void setNombre(int nombre)
-	{
-		this.nombre = nombre;
 	}
 	
 	public String toString()
