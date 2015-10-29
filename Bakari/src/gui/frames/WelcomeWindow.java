@@ -80,7 +80,7 @@ public class WelcomeWindow extends JFrame
 				if(nomPlayer == null && i > 2) {
 					break;
 				}
-				else if(!nomPlayer.isEmpty()) {
+				else if(nomPlayer != null && !nomPlayer.isEmpty()) {
 					game.addPlayer(nomPlayer);
 					i++;
 				}

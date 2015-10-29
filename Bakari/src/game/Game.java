@@ -98,7 +98,9 @@ public class Game extends Thread
 		Player p = new Player(nom);
 		listPlayers.add(p);
 	}
-	
+	public void removeAllPlayer(){
+		listPlayers.clear();
+	}
 	public synchronized void startGame() {
 		isStarted = true;
 		notify();
