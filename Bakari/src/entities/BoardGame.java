@@ -1,9 +1,7 @@
 package entities;
 
 public class BoardGame
-{
-	private static final long serialVersionUID = -5525980078260793399L;
-	
+{	
 	private int nbRow;
 	private int nbCol;
 	private Colour[][] grid = new Colour[][]

@@ -3,13 +3,13 @@ package game;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 import entities.BoardGame;
 import entities.Colour;
 import entities.Pawn;
 import entities.Player;
-import gui.frames.*;
+import gui.frames.MainWindow;
+import gui.frames.WelcomeWindow;
 
 public class Game extends Thread
 {
@@ -157,7 +157,7 @@ public class Game extends Thread
 		//Suppression de la position actuelle du pion dans les positions autorisées
 		while(authorizedPos.contains("("+posX+","+posY+")"))
 			authorizedPos.remove("("+posX+","+posY+")");
-		//Suppression des positions non autorisé
+		//Suppression des positions non autorisées
 		for(int i=0;i<blockedPos.size();i++)
 			if(authorizedPos.contains(blockedPos.get(i)))
 				authorizedPos.remove(blockedPos.get(i));
@@ -166,8 +166,8 @@ public class Game extends Thread
 	/**
 	 * Méthode qui permet de déplacer un pion
 	 * @param p un pion
-	 * @param x la position souhaité du pion
-	 * @param y la position souhaité du pion
+	 * @param x la position souhaitée du pion
+	 * @param y la position souhaitée du pion
 	 * @return vrai si le pion a été posé
 	 */
 	public synchronized boolean movePawn(Player thePlayer,Pawn p, int x, int y) {
@@ -186,8 +186,8 @@ public class Game extends Thread
 			System.out.println("Pion non placé !");
 			System.out.println("Couleur carte = " + currentCard);
 			System.out.println("Taille tab = "+authorizedPos.size());
-			System.out.println("Position demandé : ("+x+","+y+")");
-			System.out.print("Valeur possible : ");
+			System.out.println("Position demandée : ("+x+","+y+")");
+			System.out.print("Valeur(s) possible(s) : ");
 			for(int i=0;i<authorizedPos.size();i++)
 				System.out.print(authorizedPos.get(i));
 			System.out.println("");			
@@ -197,7 +197,7 @@ public class Game extends Thread
 	}
 
 	/**
-	 * Méthode qui verifie si un pion arrive à l'arrivé
+	 * Méthode qui vérifie si un pion arrive à l'arrivée
 	 * @param p un joueur
 	 * @param pa un pion
 	 * @return vrai si un pion est bien arrivé
