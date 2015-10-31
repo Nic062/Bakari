@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import entities.Colour;
 import entities.Pawn;
@@ -29,6 +30,13 @@ public class GameboardPanel extends JPanel
 	public GameboardPanel(Game g)
 	{
 		//this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		try {
+	        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName() );
+		} 
+		catch (Exception e) {
+		    e.printStackTrace();
+		}
+		// Autorise la couleur sur les boutons pour Mac OSx
 		this.game = g;
 		this.setLayout(null);
 		int y = g.getBoardGame().getGrid().length;
@@ -41,6 +49,7 @@ public class GameboardPanel extends JPanel
 				lb[i][j].setMargin(new Insets(1,1,1,1));
 				lb[i][j].setFont(new Font("Arial", Font.PLAIN, 35));
 				lb[i][j].setBackground(Colour.colourToColor(g.getBoardGame().getGrid()[i][j]));
+				lb[i][j].setOpaque(true);
 				lb[i][j].setBounds(j * 35 + 35, i * 35, 35, 35);
 				lb[i][j].addActionListener(new CaseListener());
 				this.add(lb[i][j]);
