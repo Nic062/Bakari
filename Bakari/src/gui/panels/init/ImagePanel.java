@@ -33,6 +33,7 @@ public class ImagePanel extends JPanel
 	
 	public void setImgName(String imgName) {
 		this.imgName = imgName;
+		repaint();
 	}
 
 	public String getImgName()

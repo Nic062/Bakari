@@ -57,7 +57,7 @@ public class TestJUnit4 extends TestCase {
 	@Test
 	public void testMovePawnSucces() {
 		init();
-		assertTrue(g.movePawn(p1, pa1, 0, 1));
+		assertTrue(g.movePawn(p1, pa1, 0, 0));
 	}
 	@Test
 	public void testMovePawnFail() {

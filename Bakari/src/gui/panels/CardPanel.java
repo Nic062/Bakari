@@ -26,7 +26,6 @@ public class CardPanel extends JPanel
 		this.label.setText("<html><u>Carte tirée :</u></html>");
 		this.label.setBounds(10, 20, 134, 30);
 		this.add(label);
-		
 		currentImagePanel = new ImagePanel("dos.png");
 		currentImagePanel.setBounds(10, 60, 134, 132);
 		this.add(currentImagePanel);

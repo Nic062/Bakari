@@ -128,7 +128,7 @@ public class Game extends Thread
 	 * @param p
 	 */
 	public void possibility(Pawn p){
-		//generateBlockedList(); // Génération de la liste blockedList
+		generateBlockedList();
 		int posX = p.getPositionX();
 		int posY = p.getPositionY();
 		
@@ -175,7 +175,6 @@ public class Game extends Thread
 		if(authorizedPos.contains("("+x+","+y+")") && !blockedPos.contains("("+x+","+y+")")){
 			mainWindow.addText("Déplacement : " + p.getPositionX() + ";" + p.getPositionY() + " => " + x + ";" + y);
 			p.setPositions(x, y);
-			System.out.println("********* Pion déplacé *********");
 			endturn = true;
 			notify();
 			checkWin(thePlayer,p);
@@ -207,18 +206,20 @@ public class Game extends Thread
 		if(boardGame.getColour(pa.getPositionX(),pa.getPositionY())==Colour.WHITE){
 			p.removePawn(pa);
 			if(p.getPawns().size()==0){
-				System.out.println("Fin de la partie pour " +p.getNom());
+				mainWindow.addText("Fin de la partie pour " +p.getNom());
 				this.listPlayers.remove(p);
 				listWinners.add(p);
 			}
 			if(listPlayers.size()==1){
-				System.out.println("Fin de la partie. \nLe gagnant est "+listWinners.get(0));
+				mainWindow.addText("Fin de la partie. \nLe gagnant est "+listWinners.get(0));
 				isFinished=true;
 			}
-			if(listCard.size()!=0)
+			if(listCard.size()!=0){
 			takeCard();
-			System.out.println("Un pion est arrivé à destination, changement de carte...");
+			mainWindow.addText("Un pion est arrivé à destination, changement de carte...");
+			mainWindow.updateCard();
 			return true;
+			}
 		}
 		return false;
 	}
@@ -279,15 +280,15 @@ public class Game extends Thread
 	/**
 	 * Méthode qui permet de tirer une carte
 	 */
-	public void takeCard()
-	{
+	public void takeCard(){
 		if(listCard.size() == 0) {
 			initCard();
 		}
-		else {
-			listCard.remove(0);
-		}
 		currentCard = listCard.get(0);
+		listCard.remove(0);
+		if(listCard.size() == 0) {
+			initCard();
+		}
 	}
 
 	public BoardGame getBoardGame() {
