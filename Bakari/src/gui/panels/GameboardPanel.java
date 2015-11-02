@@ -1,10 +1,14 @@
 package gui.panels;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -61,12 +65,13 @@ public class GameboardPanel extends JPanel
 		for(int i = 0; i < y; i++) {
 			for(int j = 0; j < x; j++) {
 				lb[i][j].setText("");
+				lb[i][j].setIcon(new ImageIcon(""));
 			}
 		}
 		for(Player pl : game.getListPlayers()) {
 			for(Pawn pa : pl.getPawns()) {
-				lb[pa.getPositionY()][pa.getPositionX()].setText("●");
-				lb[pa.getPositionY()][pa.getPositionX()].setForeground(Colour.colourToColor(pa.getColour()));
+				String img = "pawn_"+pa.getColour().toString().toLowerCase()+".png";
+				lb[pa.getPositionY()][pa.getPositionX()].setIcon(new ImageIcon(this.getClass().getResource("/gui/panels/init/"+img)));
 			}
 		}
 	}
