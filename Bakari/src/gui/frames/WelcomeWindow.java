@@ -1,5 +1,6 @@
 package gui.frames;
 
+import game.Game;
 import gui.panels.ImagePanel;
 
 import java.awt.Dimension;
@@ -11,8 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import game.Game;
-
 public class WelcomeWindow extends JFrame
 {
 	private static final long serialVersionUID = 2500625025662008645L;
@@ -23,7 +22,7 @@ public class WelcomeWindow extends JFrame
 	private ImagePanel imagePanel;
 
 	private JButton playButton;
-	private JButton optionButton;
+	private JButton multiplayerButton;
 	private JButton quitButton;
 
 	private Game game;
@@ -50,11 +49,11 @@ public class WelcomeWindow extends JFrame
 		playButton.addActionListener(new PlayListener());
 		this.add(playButton);
 
-		optionButton = new JButton("Options");
-		size = optionButton.getPreferredSize();
-		optionButton.setBounds((int) ((0.5 * width) - (0.5 * 100)), 260, 100, size.height);
-		optionButton.addActionListener(new OptionsListener());
-		this.add(optionButton);
+		multiplayerButton = new JButton("Réglement");
+		size = multiplayerButton.getPreferredSize();
+		multiplayerButton.setBounds((int) ((0.5 * width) - (0.5 * 100)), 260, 100, size.height);
+		multiplayerButton.addActionListener(new OptionsListener());
+		this.add(multiplayerButton);
 
 		quitButton = new JButton("Quitter");
 		size = quitButton.getPreferredSize();

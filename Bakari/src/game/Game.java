@@ -64,6 +64,7 @@ public class Game extends Thread
 		mainWindow = new MainWindow(this);
 		takeCard();
 		mainWindow.updateCard();
+		mainWindow.updateInfo();
 		mainWindow.addText("La carte tirée est " + currentCard.toString());
 		while(!isFinished)
 		{
@@ -86,6 +87,7 @@ public class Game extends Thread
 				}
 				endturn = false;
 				mainWindow.updatePawns();
+				mainWindow.updateInfo();
 			}
 			currentTour++;
 		}
