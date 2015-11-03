@@ -9,16 +9,18 @@ import gui.panels.AboutPanel;
 import gui.panels.CardPanel;
 import gui.panels.GameboardPanel;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame
+{
 	private static final long serialVersionUID = -809655995462146760L;
-	
+
 	private CardPanel cPanel;
 	private AboutPanel aPanel;
 	private GameboardPanel gPanel;
-	
+
 	private Game game;
 
-	public MainWindow(Game g) {
+	public MainWindow(Game g)
+	{
 		this.game = g;
 		this.cPanel = new CardPanel(g);
 		this.aPanel = new AboutPanel();
@@ -31,19 +33,22 @@ public class MainWindow extends JFrame {
 		this.add(aPanel, BorderLayout.SOUTH);
 		this.add(cPanel, BorderLayout.WEST);
 		this.add(gPanel, BorderLayout.CENTER);
-		
+
 		this.setVisible(true);
 	}
-	
-	public void addText(String t) {
+
+	public void addText(String t)
+	{
 		aPanel.addText(t);
 	}
-	
-	public void updateCard() {
+
+	public void updateCard()
+	{
 		cPanel.update();
 	}
-	
-	public void updatePawns() {
+
+	public void updatePawns()
+	{
 		gPanel.update();
 	}
 }

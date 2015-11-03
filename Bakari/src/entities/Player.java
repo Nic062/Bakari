@@ -61,8 +61,9 @@ public class Player
 			str += "Liste des pions : \n";
 			for(Pawn p : this.listPawns)
 			{
-				str += "Couleur des pions : " + p.getColour();
-				str += "Position des pions : " + p.getPositionX() + ", " + p.getPositionY();
+				//str += "Couleur des pions : " + p.getColour();
+				//str += "Position des pions : " + p.getPositionX() + ", " + p.getPositionY();
+				p.toString();
 			}
 		}
 		
