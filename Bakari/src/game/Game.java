@@ -103,19 +103,19 @@ public class Game extends Thread
 		this.listCard.add(Colour.ORANGE);
 		Collections.shuffle(listCard);
 	}
+	
+	public void test(){
+		for(int i=0;i<listPlayers.size();i++)
+			System.out.println(listPlayers.get(i));
+	}
 
 	public boolean addPlayer(String nom)
 	{
-		// Gérer le cas de deux noms identiques
 		Player p = new Player(nom);
-		if(!listPlayers.contains(p))
-		{
-			listPlayers.add(p);
-			//System.out.println("unique");
-			return true;
-		}
-
-		return false;
+		for (Player playerL : listPlayers)
+			if(playerL.getNom().equals(nom))
+				return false;
+		return listPlayers.add(p);
 	}
 
 	public synchronized void startGame()

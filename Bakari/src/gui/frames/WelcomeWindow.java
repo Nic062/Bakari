@@ -82,10 +82,13 @@ public class WelcomeWindow extends JFrame
 					break;
 				else if(nomPlayer != null && !nomPlayer.isEmpty())
 				{
-					if(game.addPlayer(nomPlayer)) // A modifier !!
-						i++;
+					if(nomPlayer.length()<10)
+						if(game.addPlayer(nomPlayer)) 
+							i++;
+						else
+							JOptionPane.showMessageDialog(null, "Un joueur portant ce nom existe déjà !");
 					else
-						return;
+						JOptionPane.showMessageDialog(null, "Le nom utilisé comporte trop de caractères");
 				}
 			}
 			WelcomeWindow.this.dispose();
