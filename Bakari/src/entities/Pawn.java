@@ -3,37 +3,28 @@ package entities;
 
 public class Pawn
 {
-	private Color color;
+	private Colour colour;
 	private int positionX;
 	private int positionY;
-	private int nombre;
 	
 	public Pawn()
 	{
 		this.positionX = 0;
 		this.positionY = 0;
-		this.color = null;
-		this.nombre = 0;
+		this.colour = null;
 	}
 	
-	public Pawn(Color color, int x, int y, int nombre)
+	public Pawn(Colour colour, int x, int y)
 	{
 		this.positionX = x;
 		this.positionY = y;
-		this.color = color;
-		this.nombre = nombre;
+		this.colour = colour;
 	}
 	
 	public Pawn(int x, int y)
 	{
 		this.positionX = x;
 		this.positionY = y;
-	}
-	public Pawn(Color color, int x, int y)
-	{
-		this.positionX = x;
-		this.positionY = y;
-		this.color = color;
 	}
 	
 	public int getPositionX()
@@ -59,26 +50,17 @@ public class Pawn
 		this.positionY = y;
 	}
 	
-	public Color getColor()
+	public Colour getColour()
 	{
-		return this.color;
+		return this.colour;
 	}
-	public void setColor(Color color)
+	public void setColour(Colour colour)
 	{
-		this.color = color;
-	}
-	
-	public int getNombre()
-	{
-		return this.nombre;
-	}
-	public void setNombre(int nombre)
-	{
-		this.nombre = nombre;
+		this.colour = colour;
 	}
 	
 	public String toString()
 	{
-		return "Pion (" + positionX + ", " + positionY + ") de couleur " + color.toString();
+		return "Pion (" + positionX + ", " + positionY + ") de couleur " + colour.toString();
 	}
 }

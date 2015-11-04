@@ -55,14 +55,15 @@ public class Player
 	public String toString()
 	{
 		String str = "Nom du joueur : " + this.nom + "\n";
+		str += "Nombre de pions : " + this.listPawns.size();
 		if(!this.listPawns.isEmpty())
 		{
 			str += "Liste des pions : \n";
 			for(Pawn p : this.listPawns)
 			{
-				str += "Couleur des pions : " + p.getColor();
-				str += "Nombre de pions : " + p.getNombre();
-				str += "Position des pions : " + p.getPositionX() + ", " + p.getPositionY();
+				//str += "Couleur des pions : " + p.getColour();
+				//str += "Position des pions : " + p.getPositionX() + ", " + p.getPositionY();
+				p.toString();
 			}
 		}
 		

@@ -3,235 +3,267 @@ package game;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 import entities.BoardGame;
-import entities.Card;
-import entities.Color;
+import entities.Colour;
 import entities.Pawn;
 import entities.Player;
+import gui.frames.MainWindow;
+import gui.frames.WelcomeWindow;
 
-public class Game
+public class Game extends Thread
 {
-	private List<Player> listPlayers = new LinkedList<Player>();
-	private List<Player> listWinners = new LinkedList<Player>();
-	public List<Card> listCard;
+	private MainWindow mainWindow;
+	private List<Player> listPlayers;
+	private List<Player> listWinners;
+	public List<Colour> listCard;
 	public List<String> blockedPos;
 	public List<String> authorizedPos;
-	private Scanner sc = new Scanner(System.in);
-	private Scanner sc2 = new Scanner(System.in);
-	private int currentCard = 0;
-	private boolean isFinished = false;
-	private int currentTour = 1;
-	public BoardGame bg;
-	public Card takedCard;
+	private Player currentPlayer;
+	private Colour currentCard;
+	private boolean isStarted;
+	private boolean endturn;
+	private boolean isFinished;
+	private int currentTour;
+	public BoardGame boardGame;
 
-	
-	public Game(){
-		authorizedPos = new LinkedList<String>();
-		blockedPos = new LinkedList<String>();
-		listCard = new LinkedList<Card>();
-	}
-	
-	
-	/**
-	 * Méthode qui initialise le jeu. 
-	 */
-	public void initGame()
+	public Game()
 	{
-		bg = new BoardGame();
-		new Game();
-		System.out.println("---------- Bakari ----------\n\n");
-		initPlayers();
+		this.listPlayers = new LinkedList<Player>();
+		this.listWinners = new LinkedList<Player>();
+		this.listCard = new LinkedList<Colour>();
+		this.blockedPos = new LinkedList<String>();
+		this.authorizedPos = new LinkedList<String>();
+		this.currentPlayer = new Player();
+		this.isStarted = false;
+		this.endturn = false;
+		this.isFinished = false;
+		this.currentTour = 1;
+		this.boardGame = new BoardGame();
+		this.start();
+	}
+
+	/**
+	 * Méthode qui gére la partie
+	 */
+	public synchronized void run()
+	{
+		initCard();
+		new WelcomeWindow(this);
+		while(!isStarted)
+		{
+			try
+			{
+				wait();
+			} catch(InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
 		initPawns();
-		initCard();		
-		startGame();
-		
+		mainWindow = new MainWindow(this);
+		takeCard();
+		mainWindow.updateCard();
+		mainWindow.updateInfo();
+		mainWindow.addText("La carte tirée est " + currentCard.toString());
+		while(!isFinished)
+		{
+			mainWindow.updatePawns();
+			mainWindow.addText("Tour n°" + currentTour);
+			for(Player pl : listPlayers)
+			{
+				currentPlayer = pl;
+				mainWindow.addText("C'est à " + pl.getNom() + " de jouer");
+				while(!endturn)
+				{
+					try
+					{
+						wait();
+					} 
+					catch(InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				endturn = false;
+				mainWindow.updatePawns();
+				mainWindow.updateInfo();
+			}
+			currentTour++;
+		}
+		mainWindow.addText("Fin de la partie");
+	}
+
+	/**
+	 * Méthode qui initialise les cartes en début de partie.
+	 */
+	private void initCard()
+	{
+		this.listCard.add(Colour.GREEN);
+		this.listCard.add(Colour.PINK);
+		this.listCard.add(Colour.BLUE);
+		this.listCard.add(Colour.ORANGE);
+		Collections.shuffle(listCard);
 	}
 	
+	public void test(){
+		for(int i=0;i<listPlayers.size();i++)
+			System.out.println(listPlayers.get(i));
+	}
+
+	public boolean addPlayer(String nom)
+	{
+		Player p = new Player(nom);
+		for (Player playerL : listPlayers)
+			if(playerL.getNom().equals(nom))
+				return false;
+		return listPlayers.add(p);
+	}
+
+	public synchronized void startGame()
+	{
+		isStarted = true;
+		notify();
+	}
+
 	/**
 	 * Méthode qui génére toutes les cases bloquées pour chaque tour
 	 */
 	private void generateBlockedList()
-	{		
+	{
 		for(Player p : this.listPlayers)
-			for(Pawn pa : p.getPawns()){
+			for(Pawn pa : p.getPawns())
+			{
 				int x = pa.getPositionX();
 				int y = pa.getPositionY();
-				blockedPos.add("("+x+","+y+")");
+				blockedPos.add("(" + x + "," + y + ")");
 			}
-		
-		for(int x=0;x<bg.getSizeGridX();x++)
-			for(int y=0;y<bg.getSizeGridY();y++)
-				if(bg.getChar(x, y)=='x')
-					blockedPos.add("("+x+","+y+")");
-		
+
+		for(int x = 0; x < boardGame.getSizeGridX(); x++)
+			for(int y = 0; y < boardGame.getSizeGridY(); y++)
+				if(boardGame.getColour(x, y) == Colour.BLACK)
+					blockedPos.add("(" + x + "," + y + ")");
+
 	}
-	
+
 	/**
-	 * Méthode qui liste dans un tableau la liste des cases où le déplacement est possible pour un pion p
+	 * Méthode qui liste dans un tableau la liste des cases où le déplacement
+	 * est possible pour un pion p
+	 * 
 	 * @param p
 	 */
-	public void possibility(Pawn p){
-		//generateBlockedList(); // Génération de la liste blockedList
+	public void possibility(Pawn p)
+	{
+		generateBlockedList();
 		int posX = p.getPositionX();
 		int posY = p.getPositionY();
-		
-		//Algorithme de recherche de positions autorisées
-		for(int x=posX;x<bg.getSizeGridX();x++)
-			if(bg.getColor(x, posY) != takedCard.getColor() || x==posX)
-				authorizedPos.add("("+x+","+posY+")");
-			else 
-				break;
-		for(int x=posX;x>=0;x--)
-			if(bg.getColor(x, posY)!=takedCard.getColor() || x==posX)
-				authorizedPos.add("("+x+","+posY+")");
-			else
-				break;	
-		for(int y=posY;y<bg.getSizeGridY();y++)
-			if(bg.getColor(posX, y)!=takedCard.getColor() || y==posY  || bg.getChar(posX, y)=='f')
-				authorizedPos.add("("+posX+","+y+")");
-			else
-				break;	
-		for(int y=posY;y>=0;y--)
-			if(bg.getColor(posX, y)!=takedCard.getColor() || y==posY)
-				authorizedPos.add("("+posX+","+y+")");
+
+		// Algorithme de recherche de positions autorisées
+		for(int x = posX; x < boardGame.getSizeGridX(); x++)
+			if(boardGame.getColour(x, posY) != currentCard || x == posX)
+				authorizedPos.add("(" + x + "," + posY + ")");
 			else
 				break;
-		
-		//Suppression de la position actuelle du pion dans les positions autorisées
-		while(authorizedPos.contains("("+posX+","+posY+")"))
-			authorizedPos.remove("("+posX+","+posY+")");
-		//Suppression des positions non autorisé
-		for(int i=0;i<blockedPos.size();i++)
+		for(int x = posX; x >= 0; x--)
+			if(boardGame.getColour(x, posY) != currentCard || x == posX)
+				authorizedPos.add("(" + x + "," + posY + ")");
+			else
+				break;
+		for(int y = posY; y < boardGame.getSizeGridY(); y++)
+			if(boardGame.getColour(posX, y) != currentCard || y == posY || boardGame.getColour(posX, y) == Colour.WHITE)
+				authorizedPos.add("(" + posX + "," + y + ")");
+			else
+				break;
+		for(int y = posY; y >= 0; y--)
+			if(boardGame.getColour(posX, y) != currentCard || y == posY)
+				authorizedPos.add("(" + posX + "," + y + ")");
+			else
+				break;
+
+		// Suppression de la position actuelle du pion dans les positions
+		// autorisées
+		while(authorizedPos.contains("(" + posX + "," + posY + ")"))
+			authorizedPos.remove("(" + posX + "," + posY + ")");
+		// Suppression des positions non autorisées
+		for(int i = 0; i < blockedPos.size(); i++)
 			if(authorizedPos.contains(blockedPos.get(i)))
 				authorizedPos.remove(blockedPos.get(i));
 	}
-	
-	/**
-	 * Méthode qui gére la partie
-	 */
-	private void startGame()
-	{
-		takedCard = takeCard();
-		System.out.println("Démarrage de la partie...");
-		System.out.println("La premiere carte tiré est : " +takedCard.getColor());
-		while(!isFinished)
-		{
-			
-			for(Player pl : this.listPlayers)
-			{
-				while(! checkTour(pl)){
-					System.out.println("Déplacement impossible, veuillez réessayer");
-				};
-				
-			}
-			this.currentTour++;
-		}
-	}
-	
-	/**
-	 * Méthode qui vérifie qui doit jouer
-	 * @param pl un joueur
-	 */
-	private boolean checkTour(Player pl)
-	{
-		bg.afficher();
-		System.out.println("Tour " + this.currentTour + " - Joueur : " + pl.getNom());
-		System.out.println("Selectionné un pion : ");
-		for(int i=0;i<pl.getPawns().size();i++){
-			System.out.println(i+1 +" - "+pl.getPawns().get(i).toString());
-		}
-		Scanner scP = new Scanner(System.in);
-		int selectedPawn = scP.nextInt()-1;
-		System.out.println("vous avez chosit le pion "+ pl.getPawns().get(selectedPawn).toString());
-		System.out.println("Indiquez les coordonnées pour votre pion :\n x :");
-		int x = sc.nextInt();
-		System.out.println("y :");
-		int y = sc.nextInt();
-		if(movePawn(pl, pl.getPawns().get(selectedPawn), x, y))
-			return true;
-		return false;
-	}
-	
+
 	/**
 	 * Méthode qui permet de déplacer un pion
-	 * @param p un pion
-	 * @param x la position souhaité du pion
-	 * @param y la position souhaité du pion
+	 * 
+	 * @param p
+	 *            un pion
+	 * @param x
+	 *            la position souhaitée du pion
+	 * @param y
+	 *            la position souhaitée du pion
 	 * @return vrai si le pion a été posé
 	 */
-	public boolean movePawn(Player thePlayer,Pawn p, int x, int y){
+	public synchronized boolean movePawn(Player thePlayer, Pawn p, int x, int y)
+	{
 		possibility(p);
-		if(authorizedPos.contains("("+x+","+y+")") && !blockedPos.contains("("+x+","+y+")")){
+		if(authorizedPos.contains("(" + x + "," + y + ")") && !blockedPos.contains("(" + x + "," + y + ")"))
+		{
+			mainWindow.addText("Déplacement : " + p.getPositionX() + ";"
+					+ p.getPositionY() + " => " + x + ";" + y);
 			p.setPositions(x, y);
-			System.out.println("********* Pion déplacé *********");
-			checkWin(thePlayer,p);
+			endturn = true;
+			notify();
+			checkWin(thePlayer, p);
 			return true;
 		}
-		else {
+		else
+		{
 			System.out.println("*********DETAIL*********");
 			System.out.println("Pion non placé !");
-			System.out.println("Couleur carte = " + takedCard.getColor());
-			System.out.println("Taille tab = "+authorizedPos.size());
-			System.out.println("Position demandé : ("+x+","+y+")");
-			System.out.print("Valeur possible : ");
-			for(int i=0;i<authorizedPos.size();i++)
+			System.out.println("Couleur carte = " + currentCard);
+			System.out.println("Taille tab = " + authorizedPos.size());
+			System.out.println("Position demandée : (" + x + "," + y + ")");
+			System.out.print("Valeur(s) possible(s) : ");
+			for(int i = 0; i < authorizedPos.size(); i++)
 				System.out.print(authorizedPos.get(i));
-			System.out.println("");			
+			System.out.println("");
 			System.out.println("**********FIN**********");
 		}
 		return false;
 	}
 
 	/**
-	 * Méthode qui verifie si un pion arrive à l'arrivé
-	 * @param p un joueur
-	 * @param pa un pion
+	 * Méthode qui vérifie si un pion arrive à l'arrivée
+	 * 
+	 * @param p
+	 *            un joueur
+	 * @param pa
+	 *            un pion
 	 * @return vrai si un pion est bien arrivé
 	 */
 	public boolean checkWin(Player p, Pawn pa)
 	{
-		if(bg.getChar(pa.getPositionX(),pa.getPositionY())=='f'){
+		if(boardGame.getColour(pa.getPositionX(), pa.getPositionY()) == Colour.WHITE)
+		{
 			p.removePawn(pa);
-			if(p.getPawns().size()==0){
-				System.out.println("Fin de la partie pour " +p.getNom());
+			if(p.getPawns().size() == 0)
+			{
+				mainWindow.addText("Fin de la partie pour " + p.getNom());
 				this.listPlayers.remove(p);
 				listWinners.add(p);
 			}
-			if(listPlayers.size()==1){
-				System.out.println("Fin de la partie. \nLe gagnant est "+listWinners.get(0));
-				isFinished=true;
+			if(listPlayers.size() == 1)
+			{
+				mainWindow.addText("Fin de la partie. \nLe gagnant est " + listWinners.get(0));
+				isFinished = true;
 			}
-			if(listCard.size()!=0)
-			takedCard = takeCard();
-			System.out.println("Un pion est arrivé à destination, changement de carte...");
-			return true;
+			if(listCard.size() != 0)
+			{
+				takeCard();
+				mainWindow.addText("Un pion est arrivé à destination, changement de carte...");
+				mainWindow.updateCard();
+				return true;
+			}
 		}
 		return false;
-	}
-	
-	/**
-	 * Méthode qui initialise les joueurs en début de partie
-	 */
-	private void initPlayers()
-	{
-		System.out.println("Entrez le nombre de joueur (2-3-4) : ");
-		int nbPlayer = sc.nextInt();
-		if(nbPlayer>1 && nbPlayer<5)
-		{
-			for(int i=1;i<nbPlayer + 1;i++)
-			{
-				String playerName = "";
-				do
-				{
-					System.out.println("Entre le nom du joueur "+i+" :");	
-					playerName = sc2.nextLine();
-					this.listPlayers.add(new Player(playerName));
-				}
-				while(playerName.isEmpty());
-			} 
-		}
 	}
 
 	/**
@@ -244,11 +276,11 @@ public class Game
 			for(int i = 0; i < 2; i++)
 			{
 				if(i == 0)
-					for(int j =0;j<6;j++)
-						this.listPlayers.get(i).addPawn(new Pawn(Color.RED, j, 11));
+					for(int j = 0; j < 6; j++)
+						this.listPlayers.get(i).addPawn(new Pawn(Colour.PINK, j, 0));
 				else
-					for(int j=6;j<12;j++)
-						this.listPlayers.get(i).addPawn(new Pawn(Color.ORANGE, j, 11));
+					for(int j = 6; j < 12; j++)
+						this.listPlayers.get(i).addPawn(new Pawn(Colour.ORANGE, j, 0));
 			}
 		}
 		else if(this.listPlayers.size() == 3)
@@ -256,74 +288,74 @@ public class Game
 			for(int i = 0; i < 3; i++)
 			{
 				if(i == 0)
-					for(int j=0;j<4;j++)
-						this.listPlayers.get(i).addPawn(new Pawn(Color.RED, 0, j));
+					for(int j = 0; j < 4; j++)
+						this.listPlayers.get(i).addPawn(new Pawn(Colour.PINK, j, 0));
 				else if(i == 1)
-					for(int j=4;j<8;j++)
-						this.listPlayers.get(i).addPawn(new Pawn(Color.ORANGE, 0, j));
+					for(int j = 4; j < 8; j++)
+						this.listPlayers.get(i).addPawn(new Pawn(Colour.ORANGE, j, 0));
 				else
-					for(int j=8;j<12;j++)
-						this.listPlayers.get(i).addPawn(new Pawn(Color.GREEN, 0, j));
+					for(int j = 8; j < 12; j++)
+						this.listPlayers.get(i).addPawn(new Pawn(Colour.GREEN, j, 0));
 			}
-		}
-		else
+		} else
 		{
 			for(int i = 0; i < 4; i++)
 			{
 				if(i == 0)
-					for(int j=0;j<3;j++)
-						this.listPlayers.get(i).addPawn(new Pawn(Color.RED, 0, j));
+					for(int j = 0; j < 3; j++)
+						this.listPlayers.get(i).addPawn(new Pawn(Colour.PINK, j, 0));
 				else if(i == 1)
-					for(int j=3;j<6;j++)
-						this.listPlayers.get(i).addPawn(new Pawn(Color.ORANGE, 0, j));
+					for(int j = 3; j < 6; j++)
+						this.listPlayers.get(i).addPawn(new Pawn(Colour.ORANGE, j, 0));
 				else if(i == 2)
-					for(int j=6;j<9;j++)
-						this.listPlayers.get(i).addPawn(new Pawn(Color.GREEN, 0, j));
+					for(int j = 6; j < 9; j++)
+						this.listPlayers.get(i).addPawn(new Pawn(Colour.GREEN, j, 0));
 				else
-					for(int j=9;j<12;j++)
-						this.listPlayers.get(i).addPawn(new Pawn(Color.WHITE, 0, j));
+					for(int j = 9; j < 12; j++)
+						this.listPlayers.get(i).addPawn(new Pawn(Colour.WHITE, j, 0));
 			}
 		}
 	}
-	
-	/**
-	 * Méthode qui initialise les cartes en début de partie.
-	 */
-	private void initCard()
-	{
-		this.listCard.add(new Card(Color.GREEN));
-		this.listCard.add(new Card(Color.PINK));
-		this.listCard.add(new Card(Color.BLUE));
-		this.listCard.add(new Card(Color.ORANGE));
-		Collections.shuffle(listCard); 
-		System.out.println("Cartes initialisées et mélangées.");
-		
-	}
-	
+
 	/**
 	 * Méthode qui permet de tirer une carte
-	 * @return la carte tiré
 	 */
-	public Card takeCard()
+	public void takeCard()
 	{
-		Card theCard;
-		if(currentCard<listCard.size())
+		if(listCard.size() == 0)
 		{
-			theCard = listCard.get(currentCard);
-			currentCard++;
+			initCard();
 		}
-		else
+		currentCard = listCard.get(0);
+		listCard.remove(0);
+		if(listCard.size() == 0)
 		{
-			Card lastCard=listCard.get(listCard.size()-1);
-			Collections.shuffle(listCard);
-			while(listCard.get(0)==lastCard)
-				Collections.shuffle(listCard);
-			currentCard=0;
-			return takeCard();
+			initCard();
 		}
-		return theCard;	
+	}
+
+	public BoardGame getBoardGame()
+	{
+		return boardGame;
+	}
+
+	public List<Player> getListPlayers()
+	{
+		return listPlayers;
+	}
+
+	public Player getCurrentPlayer()
+	{
+		return currentPlayer;
+	}
+
+	public Colour getCurrentCard()
+	{
+		return currentCard;
 	}
 	
-	
-	
+	public static void main(String[] args)
+	{
+		new Game();
+	}
 }
