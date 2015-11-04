@@ -130,6 +130,7 @@ public class WelcomeWindow extends JFrame
 		public void actionPerformed(ActionEvent e)
 		{
 			WelcomeWindow.this.dispose();
+			System.exit(0);
 		}
 	}
 }
