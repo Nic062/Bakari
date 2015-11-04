@@ -3,9 +3,13 @@ package gui.frames;
 import game.Game;
 import gui.panels.ImagePanel;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,7 +26,7 @@ public class WelcomeWindow extends JFrame
 	private ImagePanel imagePanel;
 
 	private JButton playButton;
-	private JButton multiplayerButton;
+	private JButton rulesButton;
 	private JButton quitButton;
 
 	private Game game;
@@ -45,20 +49,23 @@ public class WelcomeWindow extends JFrame
 
 		playButton = new JButton("Jouer");
 		size = playButton.getPreferredSize();
-		playButton.setBounds((int) ((0.5 * width) - (0.5 * 100)), 230, 100, size.height);
+		playButton.setBounds((int) ((0.5 * width) - (0.5 * 150)), 230, 150, size.height);
 		playButton.addActionListener(new PlayListener());
+		playButton.setToolTipText("Lancer une partie");
 		this.add(playButton);
 
-		multiplayerButton = new JButton("Réglement");
-		size = multiplayerButton.getPreferredSize();
-		multiplayerButton.setBounds((int) ((0.5 * width) - (0.5 * 100)), 260, 100, size.height);
-		multiplayerButton.addActionListener(new OptionsListener());
-		this.add(multiplayerButton);
+		rulesButton = new JButton("Réglement");
+		size = rulesButton.getPreferredSize();
+		rulesButton.setBounds((int) ((0.5 * width) - (0.5 * 150)), 260, 150, size.height);
+		rulesButton.addActionListener(new OptionsListener());
+		rulesButton.setToolTipText("Afficher les règles du jeu");
+		this.add(rulesButton);
 
 		quitButton = new JButton("Quitter");
 		size = quitButton.getPreferredSize();
-		quitButton.setBounds((int) ((0.5 * width) - (0.5 * 100)), 290, 100, size.height);
+		quitButton.setBounds((int) ((0.5 * width) - (0.5 * 150)), 290, 150, size.height);
 		quitButton.addActionListener(new QuitListener());
+		quitButton.setToolTipText("Fermer la fenêtre");
 		this.add(quitButton);
 
 		this.setVisible(true);
@@ -100,7 +107,20 @@ public class WelcomeWindow extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			JOptionPane.showMessageDialog(null, "to do");
+			try
+			{
+				Desktop d = Desktop.getDesktop();
+				URI uri = new URI("http://jeuxstrategieter.free.fr/Bakari_complet.php");
+				d.browse(uri);
+			}
+			catch(IOException ex)
+			{
+				ex.printStackTrace();
+			}
+			catch(URISyntaxException ex)
+			{
+				ex.printStackTrace();
+			}
 		}
 	}
 
