@@ -83,6 +83,7 @@ public class WelcomeWindow extends JFrame
 			while(i < 5)
 			{
 				nomPlayer = null;
+				Object[] options = { "OK", "CANCEL" };
 				nomPlayer = JOptionPane.showInputDialog(null, "Indiquez le nom du joueur " + i + " : ", "Nom du joueur " + i, JOptionPane.QUESTION_MESSAGE);
 				if(nomPlayer == null && i > 2)
 					break;

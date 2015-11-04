@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import entities.BoardGame;
 import entities.Colour;
 import entities.Pawn;
@@ -15,7 +17,7 @@ public class Game extends Thread
 {
 	private MainWindow mainWindow;
 	private List<Player> listPlayers;
-	private List<Player> listWinners;
+	private List<String> listWinners;
 	public List<Colour> listCard;
 	public List<String> blockedPos;
 	public List<String> authorizedPos;
@@ -30,7 +32,7 @@ public class Game extends Thread
 	public Game()
 	{
 		this.listPlayers = new LinkedList<Player>();
-		this.listWinners = new LinkedList<Player>();
+		this.listWinners = new LinkedList<String>();
 		this.listCard = new LinkedList<Colour>();
 		this.blockedPos = new LinkedList<String>();
 		this.authorizedPos = new LinkedList<String>();
@@ -248,11 +250,17 @@ public class Game extends Thread
 			{
 				mainWindow.addText("Fin de la partie pour " + p.getNom());
 				this.listPlayers.remove(p);
-				listWinners.add(p);
+				listWinners.add(p.getNom());
 			}
 			if(listPlayers.size() == 1)
 			{
 				mainWindow.addText("Fin de la partie. \nLe gagnant est " + listWinners.get(0));
+				int input = JOptionPane.showOptionDialog(null, "Le gagnant est " + listWinners.get(0), "Fin de la partie", JOptionPane.DEFAULT_OPTION, JOptionPane.YES_NO_CANCEL_OPTION, null, null, null);
+				if(input == JOptionPane.OK_OPTION)
+				{
+				    mainWindow.dispose();
+				    new WelcomeWindow(new Game());
+				}
 				isFinished = true;
 			}
 			if(listCard.size() != 0)
