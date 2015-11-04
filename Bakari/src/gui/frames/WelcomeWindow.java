@@ -28,6 +28,8 @@ public class WelcomeWindow extends JFrame
 	private JButton playButton;
 	private JButton rulesButton;
 	private JButton quitButton;
+	private JButton multiplayerButton;
+
 
 	private Game game;
 
@@ -49,10 +51,16 @@ public class WelcomeWindow extends JFrame
 
 		playButton = new JButton("Jouer");
 		size = playButton.getPreferredSize();
-		playButton.setBounds((int) ((0.5 * width) - (0.5 * 150)), 230, 150, size.height);
+		playButton.setBounds((int) ((0.5 * width) - (0.5 * 150)), 200, 150, size.height);
 		playButton.addActionListener(new PlayListener());
 		playButton.setToolTipText("Lancer une partie");
 		this.add(playButton);
+		
+		multiplayerButton = new JButton("Multijoueur");
+		size = multiplayerButton.getPreferredSize();
+		multiplayerButton.setBounds((int) ((0.5 * width) - (0.5 * 150)), 230, 150, size.height);
+		multiplayerButton.addActionListener(new MultiplayerListener());
+		this.add(multiplayerButton);
 
 		rulesButton = new JButton("Réglement");
 		size = rulesButton.getPreferredSize();
@@ -99,6 +107,15 @@ public class WelcomeWindow extends JFrame
 			}
 			WelcomeWindow.this.dispose();
 			game.startGame();
+		}
+	}
+	
+	class MultiplayerListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			new MultiplayerWindow(game);
 		}
 	}
 

@@ -1,15 +1,15 @@
 package gui.panels;
 
-import entities.Pawn;
-import entities.Player;
-import game.Game;
-
 import java.awt.Dimension;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import entities.Pawn;
+import entities.Player;
+import game.Game;
 
 public class InfoPanel extends JPanel
 {
@@ -29,7 +29,7 @@ public class InfoPanel extends JPanel
 		
 		this.label = new JLabel();
 		this.label.setText("<html><u>Informations :</u></html>");
-		this.label.setBounds(0, 20, 130, 30);
+		this.label.setBounds(0, 20, 150, 30);
 		this.add(label);
 		
 		this.playerNameList = new LinkedList<JLabel>();
