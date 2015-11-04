@@ -195,12 +195,9 @@ public class Game extends Thread
 	/**
 	 * Méthode qui permet de déplacer un pion
 	 * 
-	 * @param p
-	 *            un pion
-	 * @param x
-	 *            la position souhaitée du pion
-	 * @param y
-	 *            la position souhaitée du pion
+	 * @param p un pion
+	 * @param x la position souhaitée du pion
+	 * @param y la position souhaitée du pion
 	 * @return vrai si le pion a été posé
 	 */
 	public synchronized boolean movePawn(Player thePlayer, Pawn p, int x, int y)
@@ -235,10 +232,8 @@ public class Game extends Thread
 	/**
 	 * Méthode qui vérifie si un pion arrive à l'arrivée
 	 * 
-	 * @param p
-	 *            un joueur
-	 * @param pa
-	 *            un pion
+	 * @param p un joueur
+	 * @param pa un pion
 	 * @return vrai si un pion est bien arrivé
 	 */
 	public boolean checkWin(Player p, Pawn pa)
