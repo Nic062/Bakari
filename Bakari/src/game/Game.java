@@ -205,8 +205,7 @@ public class Game extends Thread
 		possibility(p);
 		if(authorizedPos.contains("(" + x + "," + y + ")") && !blockedPos.contains("(" + x + "," + y + ")"))
 		{
-			mainWindow.addText("Déplacement : " + p.getPositionX() + ";"
-					+ p.getPositionY() + " => " + x + ";" + y);
+			mainWindow.addText("Déplacement : " + p.getPositionX() + ";"+ p.getPositionY() + " => " + x + ";" + y);
 			p.setPositions(x, y);
 			endturn = true;
 			notify();
@@ -257,6 +256,7 @@ public class Game extends Thread
 				    new WelcomeWindow(new Game());
 				}
 				isFinished = true;
+				return true;
 			}
 			if(listCard.size() != 0)
 			{
@@ -355,6 +355,9 @@ public class Game extends Thread
 	public Colour getCurrentCard()
 	{
 		return currentCard;
+	}
+	public void setCurrentCard(Colour currentCard){
+		this.currentCard=currentCard;
 	}
 	
 	public static void main(String[] args)
