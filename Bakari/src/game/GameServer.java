@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 public class GameServer extends Thread {
 	
@@ -13,6 +14,7 @@ public class GameServer extends Thread {
 	private int nbConnexion = 4;
 	private String[] message;
 	private int nbMsg;
+	private List<Thread> gameServerThreadList;
 	
 	public GameServer() {
 		message=new String[1000];
@@ -23,15 +25,12 @@ public class GameServer extends Thread {
 		try {
 			serverSocket = new ServerSocket(port,nbConnexion);
 			System.out.println("Le serveur est à l'écoute du port "+serverSocket.getLocalPort());
-			while(!serverSocket.isClosed()) {
-				Thread t = new Thread(new LeThread(serverSocket.accept(), this));
-				t.start();
-			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		//nouvelleConnexion();
+		nouvelleConnexion();
 		//nouvelleConnexion();
 
 	}
@@ -45,7 +44,11 @@ public class GameServer extends Thread {
 			System.out.println("Nouvelle connexion !");
 			nbConnecte++;
 			if (nbConnecte>=2){
-				new LeThread(connexion, this).start();
+				while(!serverSocket.isClosed()) {
+					Thread t = new Thread(new LeThread(connexion, this));
+					gameServerThreadList.add(t);
+					t.start();
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -65,7 +68,7 @@ public class GameServer extends Thread {
 	}
 	
 	
-	private static class LeThread extends Thread{
+	private static class LeThread implements Runnable{
 		Socket socket;
 		GameServer gameServer;
 		public LeThread (Socket socket, GameServer gameServer){
