@@ -3,96 +3,133 @@ package game;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
 
 public class GameServer extends Thread {
 	
-	private int port;
 	private ServerSocket serverSocket;
-	private List<Thread> gameServerThreadList;
+	private int nbConnexion = 4;
+	private String[] message;
+	private int nbMsg;
 	
-	public GameServer(int port) {
-		this.port = port;
-		this.gameServerThreadList = new LinkedList<Thread>();
-		this.start();
+	public GameServer() {
+		message=new String[1000];
+		nbMsg=0;
 	}
 	
-	public void run() {
+	public void enregistrementService(int port){
 		try {
-			serverSocket = new ServerSocket(port);
-			System.out.println("Serveur lancé (port : " + port + ")");
+			serverSocket = new ServerSocket(port,nbConnexion);
+			System.out.println("Le serveur est à l'écoute du port "+serverSocket.getLocalPort());
 			while(!serverSocket.isClosed()) {
-				Thread t = new Thread(new GameServerThread(serverSocket.accept()));
-				gameServerThreadList.add(t);
+				Thread t = new Thread(new LeThread(serverSocket.accept(), this));
 				t.start();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
+		//nouvelleConnexion();
+		//nouvelleConnexion();
+
+	}
+	
+	private int nbConnecte = 0;
+	public Socket nouvelleConnexion(){
+		System.out.println("Serveur en attente d’une connexion...");
+		Socket connexion = null;
+		try {
+			connexion = serverSocket.accept();
+			System.out.println("Nouvelle connexion !");
+			nbConnecte++;
+			if (nbConnecte>=2){
+				new LeThread(connexion, this).start();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return connexion;
 	}
 	
 	public void close() {
-		for(Thread gst : gameServerThreadList) {
-			System.out.println("fermeture : " + gst.getName());
-			gst.interrupt();
-		}
-		System.out.println("fermeture : ct");
-		this.interrupt();
 		try {
 			serverSocket.close();
 			System.out.println("fermeture serveur");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.interrupt();
+		
 	}
 	
-	private static class GameServerThread implements Runnable {
-		
-		private int nbClient = 0;
+	
+	private static class LeThread extends Thread{
 		Socket socket;
-		BufferedReader bufferedReader;
-		
-		public GameServerThread(Socket socket) {
+		GameServer gameServer;
+		public LeThread (Socket socket, GameServer gameServer){
 			this.socket = socket;
-			try {
-				this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			this.gameServer=gameServer;
+			System.out.println("nouveau thread !");
 		}
 		
 		public void run() {
-			String message = "";
-		    System.out.println("Un nouveau client s'est connecte, no " + nbClient);
-		    try {
-		    	char charCur[] = new char[1];
-		    	while(bufferedReader.read(charCur, 0, 1)!=-1) {
-		    		if (charCur[0] != '\u0000' && charCur[0] != '\n' && charCur[0] != '\r')
-		    			message += charCur[0];
-		    		else if(!message.equalsIgnoreCase("")) {
-		    			if(charCur[0]=='\u0000')
-		    				System.out.println(message+""+charCur[0]);
-		    			else System.out.println(message);
-		    			message = "";
-		    		}
-		    	}
-		    }
-		    catch (Exception e) {
-		    	e.printStackTrace();
-		    }
-		    finally 
-		    {
-		      try {
-		    	  System.out.println("Le client no "+nbClient+" s'est deconnecte");
-		    	  socket.close();
-		      }
-		      catch (IOException e) {
-		    	  e.printStackTrace();
-		      }
-		    }
+
+				System.out.println("ok");
+		        try{
+		            BufferedReader buff = fluxEntrant(); 
+		            PrintWriter print = fluxSortant(); 
+		            BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
+		            boolean fin = false;
+		            boolean tour = true;
+		            String message="";
+		            while(!fin){
+		            	if(tour){
+		            		System.out.println("Client : ");
+		                    message = clavier.readLine();
+		                    print.println(message);
+		                    print.flush();
+		                    if(message.compareTo("fin")==0)
+		                        fin = true;
+		                    
+		                           
+		                }else{
+		                           
+			                System.out.println("Serveur >");
+			                message = buff.readLine();
+			                System.out.println(message);
+		                }
+		                tour = !tour;
+		            }
+		            socket.close();
+		        }catch(Exception e){
+		                System.exit(1);
+		               
+		        }
+			
 		}
+		
+		public BufferedReader fluxEntrant(){
+			try {
+				return new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		}
+		
+		public PrintWriter fluxSortant(){
+	        try{
+	            return new PrintWriter(socket.getOutputStream());
+	        }catch(Exception e){
+	            System.exit(1);
+	            return null;
+	        }
+		}
+		
+		
 	}
+
 }

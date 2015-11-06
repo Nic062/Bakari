@@ -1,14 +1,14 @@
 package gui.frames;
 
+import game.Game;
+import game.GameServer;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
-import game.Game;
-import game.GameServer;
 
 public class MultiplayerWindow extends JFrame
 {
@@ -66,7 +66,8 @@ public class MultiplayerWindow extends JFrame
 		{
 			if(gameServer == null) {
 				try {
-					gameServer = new GameServer(9696);
+					gameServer = new GameServer();
+					gameServer.enregistrementService(6666);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
